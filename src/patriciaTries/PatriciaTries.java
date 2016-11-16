@@ -29,7 +29,9 @@ public class PatriciaTries implements ITries{
 			return;
 		}
 		/* on rajoute le mot vide a la fin de la chaine de charactère en entrée */
+		System.out.println(element.length());
 		element = element + (char)0;
+		System.out.println(element.length());
 		this.insertionRec(element);
 	}
 	
@@ -41,12 +43,13 @@ public class PatriciaTries implements ITries{
 		/* on récupère le préfixe de la case ou il faut insérer */
 		String prefixe = prefixes[index];
 		
-		
 		/* c'est le cas ou la case n'a pas été remplie TODO peut etre a changer*/ 
-		if(prefixe.equals(null)){
+		/*TODO frapper très fort alezxandr elavigne avec son .equals de merde */
+		if(prefixe == null){
 			prefixes[index] = element;
 			return;
 		}
+		
 		/* donc ici on est dans le cas ou il existe un élément dans la case */
 		/* on calcule le préfixe commun */
 		String prefixeCommun = bestPrefixe(element,prefixe);
@@ -94,8 +97,8 @@ public class PatriciaTries implements ITries{
 		int i = 0;
 		
 		while((i < mot1.length() || i < mot2.length()) && (mot1.charAt(i) == mot2.charAt(i))){
-			i++;
 			prefixe_commun += mot1.charAt(i);
+			i++;
 		}
 		return prefixe_commun;
 	}
