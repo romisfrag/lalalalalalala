@@ -23,14 +23,19 @@ public class PatriciaTries implements ITries{
 
 
 	@Override
-	public void insertion(String element) {
-		
+	public void insertion(String element){
 		/* cas de base au cas ou l'élément est vide */
 		if(element.equals(null)){
 			return;
 		}
 		/* on rajoute le mot vide a la fin de la chaine de charactère en entrée */
 		element = element + (char)0;
+		this.insertionRec(element);
+	}
+	
+	public void insertionRec(String element) {
+		
+
 		/* index obtenue avec l'aide de la première ligne du mot */
 		int index = element.charAt(0);
 		/* on récupère le préfixe de la case ou il faut insérer */
@@ -42,8 +47,6 @@ public class PatriciaTries implements ITries{
 			prefixes[index] = element;
 			return;
 		}
-		
-		
 		/* donc ici on est dans le cas ou il existe un élément dans la case */
 		/* on calcule le préfixe commun */
 		String prefixeCommun = bestPrefixe(element,prefixe);
@@ -53,9 +56,13 @@ public class PatriciaTries implements ITries{
 		/* cas ou le prefixe commun est plus grand que le prefixe dans la case */
 		/* il suffit de faire l'appel recursif sur le fils avec la suite de l'élément a inserer */
 		/* je met supérieur ou égale d'ou le test pour voir si c'est nul ou pas au debut */
-		if(prefixeCommun.length() >= prefixe.length()){
-			String suiteElement = element.substring(prefixeCommun.length(),element.length());
-			fils[index].insertion(suiteElement);
+		if(prefixeCommun.length() == prefixe.length()){
+			/* cas ou le mot est déja présent */
+			if(prefixeCommun.length() == element.length()){
+				return;
+			}
+			String suiteElement = element.substring(prefixeCommun.length() - 1);
+			fils[index].insertionRec(suiteElement);
 			return;
 		}
 		/* si le préfixe commun est plus petit que le préfixe déja en place */
@@ -63,14 +70,21 @@ public class PatriciaTries implements ITries{
 			/* il faut d'abord crée un nouveau PatriciaTries */
 			PatriciaTries newSon = new PatriciaTries();
 			/* il faut calculer la suite des préfixes */
-			String suitePrefixe = prefixe.substring(prefixeCommun.length(),prefixe.length());
-			String suiteElement = element.substring(prefixeCommun.length(),element.length());
+			String suitePrefixe = prefixe.substring(prefixeCommun.length() - 1);
+			String suiteElement = element.substring(prefixeCommun.length() - 1);
 			int indexSuitePrefixe = suitePrefixe.charAt(0);
 			int indexSuiteElement = suiteElement.charAt(0); 
 			/* maintenant on les places dans le nouvel arbre */
-			newSon.putElemPrefixe(indexSuitePrefixe,suitePrefixe);
-			newSon.putElemPrefixe(indexSuiteElement, suiteElement);
-			newSon.putTrieFils(indexSuitePrefixe,this.fils[indexSuitePrefixe]);
+			//newSon.putElemPrefixe(indexSuitePrefixe,suitePrefixe);
+			newSon.prefixes[indexSuitePrefixe] = suitePrefixe;
+			
+			//newSon.putElemPrefixe(indexSuiteElement, suiteElement);
+			newSon.prefixes[indexSuiteElement] = suiteElement;
+			
+			//newSon.putTrieFils(indexSuitePrefixe,this.fils[indexSuitePrefixe]);
+			newSon.fils[indexSuitePrefixe] = this.fils[indexSuitePrefixe];
+			/* et maintenant on met le nouveau fils  */
+			this.fils[index] = newSon;
 		}	
 	}
 	
@@ -87,6 +101,7 @@ public class PatriciaTries implements ITries{
 	}
 
 	@Override
+	/* todo faire une rechercheRec et une recherche tout court */
 	public boolean recherche(String element) {
 		
 		/* on rajoute le mot vide a la fin de la chaine de charactère en entrée */
