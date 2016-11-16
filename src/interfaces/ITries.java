@@ -1,4 +1,5 @@
-package patriciaTries;
+package interfaces;
+
 
 public interface ITries {
 	
@@ -12,8 +13,4 @@ public interface ITries {
 	//recherche
 	public boolean recherche(String element);
 	
-	
-	
-	   
-
 }

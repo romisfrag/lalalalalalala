@@ -1,5 +1,7 @@
 package patriciaTries;
 
+import interfaces.ITries;
+
 public class PatriciaTries implements ITries{
 	
 	private String [] prefixes;	
@@ -29,9 +31,7 @@ public class PatriciaTries implements ITries{
 			return;
 		}
 		/* on rajoute le mot vide a la fin de la chaine de charactère en entrée */
-		System.out.println(element.length());
 		element = element + (char)0;
-		System.out.println(element.length());
 		this.insertionRec(element);
 	}
 	
@@ -64,7 +64,7 @@ public class PatriciaTries implements ITries{
 			if(prefixeCommun.length() == element.length()){
 				return;
 			}
-			String suiteElement = element.substring(prefixeCommun.length() - 1);
+			String suiteElement = element.substring(prefixeCommun.length());
 			fils[index].insertionRec(suiteElement);
 			return;
 		}
@@ -73,8 +73,8 @@ public class PatriciaTries implements ITries{
 			/* il faut d'abord crée un nouveau PatriciaTries */
 			PatriciaTries newSon = new PatriciaTries();
 			/* il faut calculer la suite des préfixes */
-			String suitePrefixe = prefixe.substring(prefixeCommun.length() - 1);
-			String suiteElement = element.substring(prefixeCommun.length() - 1);
+			String suitePrefixe = prefixe.substring(prefixeCommun.length());
+			String suiteElement = element.substring(prefixeCommun.length());
 			int indexSuitePrefixe = suitePrefixe.charAt(0);
 			int indexSuiteElement = suiteElement.charAt(0); 
 			/* maintenant on les places dans le nouvel arbre */
@@ -87,6 +87,7 @@ public class PatriciaTries implements ITries{
 			//newSon.putTrieFils(indexSuitePrefixe,this.fils[indexSuitePrefixe]);
 			newSon.fils[indexSuitePrefixe] = this.fils[indexSuitePrefixe];
 			/* et maintenant on met le nouveau fils  */
+			this.prefixes[index] = prefixeCommun;
 			this.fils[index] = newSon;
 		}	
 	}
@@ -96,7 +97,7 @@ public class PatriciaTries implements ITries{
 		String prefixe_commun = "";
 		int i = 0;
 		
-		while((i < mot1.length() || i < mot2.length()) && (mot1.charAt(i) == mot2.charAt(i))){
+		while((i < mot1.length() && i < mot2.length()) && (mot1.charAt(i) == mot2.charAt(i))){
 			prefixe_commun += mot1.charAt(i);
 			i++;
 		}
@@ -104,37 +105,50 @@ public class PatriciaTries implements ITries{
 	}
 
 	@Override
-	/* todo faire une rechercheRec et une recherche tout court */
-	public boolean recherche(String element) {
-		
+	public boolean recherche(String element){
 		/* on rajoute le mot vide a la fin de la chaine de charactère en entrée */
 		element = element + (char)0;
 		
+		//System.out.println("");
+		//System.out.println(element + " ");
+		return this.rechercheRec(element);
+	}
+	public boolean rechercheRec(String element) {
 		
-		if(element.equals(null)){
-			return false;
-		}
 		
 		int index = element.charAt(0);
-		if(this.prefixes[index].equals(null)){
+		if(this.prefixes[index] == null || this.prefixes[index].length() > element.length()){
 			return false;
 		}
+	
 		/* on calcule le prefixe commun */
 		String prefixeCommun = bestPrefixe(element,this.prefixes[index]);
 		
 		if(prefixeCommun.equals(element)){
 			return true;
 		}
-		else if(prefixeCommun.length() < element.length()){
-			String suiteElement = element.substring(prefixeCommun.length(),element.length());
-			return this.fils[index].recherche(suiteElement); 
-		}
-		/* cas ou le prefixe commun est plus grand que le mot rechercher */
-		else{
-			return false;
+		else {
+			String suiteElement = element.substring(prefixeCommun.length());
+			return this.fils[index].rechercheRec(suiteElement); 
 		}
 	}
+	
+	public void prettyPrint(){
+		for(int i = 0; i < this.prefixes.length;i++){
+			if(this.prefixes[i] != null){
+				System.out.println(prefixes[i]);
+			}
+		}
+		for(int i = 0; i < this.fils.length;i++){
+			if(this.fils[i] != null){
+				System.out.println("fils" + i);
+				this.fils[i].prettyPrint();
+			}
+		}
+		
+	}
 
+	
 	
 	@Override
 	public void suppression(String element) {
