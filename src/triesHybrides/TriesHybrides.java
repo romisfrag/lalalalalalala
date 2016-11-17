@@ -27,7 +27,7 @@ public class TriesHybrides implements ITries{
 	@Override
 	public void insertion(String element) {
 		
-		if(element == null){
+		if(element == null || element == ""){
 			return;
 		}
 		char premiereLettre = element.charAt(0);
@@ -40,6 +40,7 @@ public class TriesHybrides implements ITries{
 				valeur = compteur++;
 			}
 			else{
+				fils[MILIEU] = new TriesHybrides();
 				fils[MILIEU].insertion(element.substring(1));				
 			}			
 		}
@@ -47,19 +48,31 @@ public class TriesHybrides implements ITries{
 		
 		
 		else if(premiereLettre == caractere){			
-			if(element.length() == 1 && valeur == -1){
+			if(element.length() == 1 && valeur == -1){				
 				valeur = compteur++;				
 			}
+			else if(element.length() == 1){
+				return;
+			}
 			else{
+				if(fils[MILIEU] == null){
+					fils[MILIEU] = new TriesHybrides();
+				}				
 				fils[MILIEU].insertion(element.substring(1));	
 			}
 			
 		}
 		
 		else if(premiereLettre < caractere){
+			if(fils[GAUCHE] == null){
+				fils[GAUCHE] = new TriesHybrides();
+			}
 			fils[GAUCHE].insertion(element);
 		}
 		else{
+			if(fils[DROIT] == null){
+				fils[DROIT] = new TriesHybrides();
+			}
 			fils[DROIT].insertion(element);
 		}
 		return;
@@ -79,28 +92,54 @@ public class TriesHybrides implements ITries{
 			return false;
 		}
 		char premiereLettre = element.charAt(0);
-		
+
 		if(premiereLettre == caractere){
-			
+
 			if(element.length() == 1){
-				if(compteur > 0){
+				if(compteur > 0){					
 					return true;
 				}
+				
 				return false;
 			}
-			fils[MILIEU].recherche(element.substring(1));
+			if(fils[MILIEU] != null){				
+				return fils[MILIEU].recherche(element.substring(1));
+			}
 		}
 		else if(premiereLettre < caractere){
-			fils[DROIT].recherche(element); 
+			if(fils[GAUCHE] != null){				
+				return fils[GAUCHE].recherche(element);
+			}			
 		}
 		else{
-			fils[GAUCHE].recherche(element);
+			if(fils[DROIT] != null){				
+				return fils[DROIT].recherche(element);
+			}						
 		}
-		
-		
-		
-		
 		return false;
+	}
+	
+	public void prettyPrint(){		
+		if(caractere != 0){
+			System.out.print(caractere + " ");
+			if(valeur >= 0){
+				System.out.println(valeur);
+			}
+			else{
+				System.out.println("");
+			}
+			if(fils[MILIEU] != null){
+				fils[MILIEU].prettyPrint();
+			}
+			if(fils[GAUCHE] != null){
+				fils[GAUCHE].prettyPrint();
+			}
+			if(fils[DROIT] != null){
+				fils[DROIT].prettyPrint();
+			}
+				
+		}
+		return;		
 	}
 	
 	
