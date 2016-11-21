@@ -46,7 +46,8 @@ public class ParsingTexte {
 		}
 		System.out.println("start pretty print");
 		this.hTries.prettyPrint();
-		System.out.println("\nIl y a : " + this.hTries.comptageMots());
+		System.out.println("\nIl y a : " + this.hTries.comptageMots() + " mot(s)");
+		System.out.println("\nIl y a : " + this.hTries.comptageNil() + " Nil");
 		return;
 	}
 	

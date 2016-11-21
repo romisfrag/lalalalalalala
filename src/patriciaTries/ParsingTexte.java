@@ -45,8 +45,10 @@ public class ParsingTexte {
 		}
 		System.out.println("start pretty print");
 		this.patTries.prettyPrint();
-		String lol = "test";
-		System.out.println(lol.substring(1));
+		//String lol = "test";
+		//System.out.println(lol.substring(1));
+		System.out.println("\nIl y a : " + patTries.comptageMots() + " mot(s)");
+		System.out.println("\nIl y a : " + patTries.comptageNil() + " Nil");
 		return;
 	}
 	

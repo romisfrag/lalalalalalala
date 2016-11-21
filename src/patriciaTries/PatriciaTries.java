@@ -16,13 +16,14 @@ public class PatriciaTries implements ITries{
 		/* il va falloir faire une initialisation a null de tous les fils avec boucle for il me semble */
 	}
 	
+	/*
 	public void putElemPrefixe(int index, String element){
 		this.prefixes[index] = element;
 	}
 	public void putTrieFils(int index,PatriciaTries son){
 		this.fils[index] = son;
 	}
-
+	*/
 
 	@Override
 	public void insertion(String element){
@@ -131,6 +132,57 @@ public class PatriciaTries implements ITries{
 			String suiteElement = element.substring(prefixeCommun.length());
 			return this.fils[index].rechercheRec(suiteElement); 
 		}
+	}
+	
+	public int comptageMots() {
+		int cpt = 0;
+		String lastChar = "";
+		
+		if(prefixes != null) {
+			if(prefixes[0] != null) {
+				cpt++;
+			}
+			if(fils != null) {
+				for(int i = 1; i < prefixes.length; i++) {
+					if(prefixes[i] != null) {
+						//On récupère le dernier caractère du mot pour tester si 'fin de mot'
+						lastChar = prefixes[i].substring(prefixes[i].length()-1);
+						//test
+						if(lastChar.equals(""+(char)0)) {
+							cpt++;
+						}
+						else{
+							if(fils[i] != null) {
+								cpt += fils[i].comptageMots();
+							}							
+						}
+					}
+				}
+			}	
+		}	
+		
+		return cpt;
+	}
+	
+	public int comptageNil() {
+		int cpt = 0;
+		
+		if(prefixes == null) {
+			return cpt;
+		}
+		
+		for(int i = 0; i < prefixes.length; i++) {
+			if(prefixes[i] == null) {
+				cpt++;
+			}
+			else {
+				if(fils[i] != null) {
+					cpt += fils[i].comptageNil();
+				}
+			}
+		}
+		
+		return cpt;
 	}
 	
 	public void prettyPrint(){

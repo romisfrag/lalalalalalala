@@ -9,13 +9,14 @@ public class Main {
 		t.fullfillTries();
 		
 		
+		/*
 		if("a".compareTo("b") < 0){
 			System.out.println("a".compareTo("b"));
 		}
 		else{
 			System.out.println("failure");
 		}
-		
+		*/
 		return;
 	}
 

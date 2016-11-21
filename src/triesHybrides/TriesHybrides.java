@@ -120,25 +120,52 @@ public class TriesHybrides implements ITries{
 	}
 	
 	public int comptageMots() {
-		System.out.println("first");
 		int cpt = 0;
-		int cptFG, cptFM, cptFD;
+		int cptFG = 0, cptFM = 0, cptFD = 0;
 		
 		if(caractere != 0) {
-			System.out.println("deux");
-			cptFG = fils[GAUCHE].comptageMots();
-			System.out.println("deux.2");
-			cptFM = fils[MILIEU].comptageMots();
-			cptFD = fils[DROIT].comptageMots();
-			System.out.println("trois");
-			
+			if(fils[GAUCHE] != null) {
+				cptFG = fils[GAUCHE].comptageMots();
+			}
+			if(fils[MILIEU] != null) {
+				cptFM = fils[MILIEU].comptageMots();
+			}
+			if(fils[DROIT] != null) {
+				cptFD = fils[DROIT].comptageMots();
+			}					
 			if(valeur != -1) {	
 				cpt++;
 			}
 			return cpt + cptFG + cptFM + cptFD;
 		}
-		System.out.println("feuille");
 		return 0;
+	}
+	
+	public int comptageNil() {
+		int cpt = 0;
+		
+		if(caractere == (char)0) {
+			return 1;
+		}
+		
+		if(fils[GAUCHE] == null) {
+			return 1;
+		}else {
+			cpt += fils[GAUCHE].comptageNil();
+		}
+		if(fils[MILIEU] == null) {
+			return 1;
+		}else {
+			cpt += fils[MILIEU].comptageNil();
+		}
+		if(fils[DROIT] == null) {
+			return 1;
+		}else {
+			cpt += fils[DROIT].comptageNil();
+		}
+		
+		
+		return cpt;
 	}
 	
 	public void prettyPrint(){		
