@@ -119,6 +119,28 @@ public class TriesHybrides implements ITries{
 		return false;
 	}
 	
+	public int comptageMots() {
+		System.out.println("first");
+		int cpt = 0;
+		int cptFG, cptFM, cptFD;
+		
+		if(caractere != 0) {
+			System.out.println("deux");
+			cptFG = fils[GAUCHE].comptageMots();
+			System.out.println("deux.2");
+			cptFM = fils[MILIEU].comptageMots();
+			cptFD = fils[DROIT].comptageMots();
+			System.out.println("trois");
+			
+			if(valeur != -1) {	
+				cpt++;
+			}
+			return cpt + cptFG + cptFM + cptFD;
+		}
+		System.out.println("feuille");
+		return 0;
+	}
+	
 	public void prettyPrint(){		
 		if(caractere != 0){
 			System.out.print(caractere + " ");
