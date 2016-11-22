@@ -1,5 +1,7 @@
 package patriciaTries;
 
+import java.util.ArrayList;
+
 import interfaces.ITries;
 
 public class PatriciaTries implements ITries{
@@ -183,6 +185,48 @@ public class PatriciaTries implements ITries{
 		}
 		
 		return cpt;
+	}
+	
+	public ArrayList<String> listeMots(String pref) {
+		ArrayList<String> liste = new ArrayList<String>();
+		String mot = new String();
+		
+		if(prefixes[0] != null) {
+			liste.add(pref);
+		}
+		
+		for(int i=1; i<prefixes.length; i++) {
+			if(prefixes[i] != null) {
+				if(prefixes[i].charAt(prefixes[i].length()-1) == (char)0) {
+					liste.add(pref + prefixes[i]);
+				}else {
+					mot = pref + prefixes[i];
+					liste.addAll(fils[i].listeMots(mot));
+				}
+			}
+		}
+			
+		return liste;
+	}
+	
+	// on considère que si un noeud seul et pas de fils alors hauteur = 0
+	public int hauteur(int h) {
+		
+		int newHauteur = 0;
+		
+		if(prefixes[0] != null){
+			
+		}
+		
+		for(int i=0; i<prefixes.length; i++) {
+			if(prefixes[i] != null) {
+				int tmp = fils[i].hauteur(1);
+				if(tmp > newHauteur) {
+					newHauteur = tmp;
+				}
+			}
+		}
+		return newHauteur + h;
 	}
 	
 	public void prettyPrint(){

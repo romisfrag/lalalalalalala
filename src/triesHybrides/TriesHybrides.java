@@ -1,5 +1,7 @@
 package triesHybrides;
 
+import java.util.ArrayList;
+
 import interfaces.ITries;
 
 public class TriesHybrides implements ITries{
@@ -149,23 +151,55 @@ public class TriesHybrides implements ITries{
 		}
 		
 		if(fils[GAUCHE] == null) {
-			return 1;
+			cpt++;
 		}else {
 			cpt += fils[GAUCHE].comptageNil();
 		}
 		if(fils[MILIEU] == null) {
-			return 1;
+			cpt++;
 		}else {
 			cpt += fils[MILIEU].comptageNil();
 		}
 		if(fils[DROIT] == null) {
-			return 1;
+			cpt++;
 		}else {
 			cpt += fils[DROIT].comptageNil();
 		}
 		
 		
 		return cpt;
+	}
+	
+	public ArrayList<String> listeMots(String prefixe) {
+		ArrayList<String> liste = new ArrayList<String>();
+		String mot = new String();
+		
+		//s'il n'y a pas de caractère, return la liste
+		if(caractere == 0) {
+			return liste;
+		}		
+		
+		if(fils[GAUCHE] != null) {
+			liste.addAll(fils[GAUCHE].listeMots(prefixe));
+		}
+		
+		if(valeur != -1) {
+			mot = prefixe + caractere;
+			liste.add(mot);
+			mot = prefixe;
+		}
+		
+		if(fils[MILIEU] != null) {
+			mot = prefixe + caractere;
+			liste.addAll(fils[MILIEU].listeMots(mot));
+			mot = prefixe;
+		}
+		
+		if(fils[DROIT] != null) {
+			liste.addAll(fils[DROIT].listeMots(prefixe));
+		}
+		
+		return liste;		
 	}
 	
 	public void prettyPrint(){		

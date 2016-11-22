@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ParsingTexte {
 	
@@ -22,6 +23,9 @@ public class ParsingTexte {
 		//nécéssaires pour les tests
 		boolean resTrue;
 		boolean resFalse;
+		
+		//listeMots
+		ArrayList<String> liste = new ArrayList<String>();
 		
 		String line;
 		String []resSplit;
@@ -49,6 +53,11 @@ public class ParsingTexte {
 		//System.out.println(lol.substring(1));
 		System.out.println("\nIl y a : " + patTries.comptageMots() + " mot(s)");
 		System.out.println("\nIl y a : " + patTries.comptageNil() + " Nil");
+		//test listeMots
+		liste = patTries.listeMots("");
+		for(int i = 0; i<liste.size(); i++) {
+			System.out.println(liste.get(i));
+		}
 		return;
 	}
 	

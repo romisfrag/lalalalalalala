@@ -3,9 +3,9 @@ package triesHybrides;
 
 import java.io.BufferedReader;
 import java.io.File;
-
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ParsingTexte {
 	
@@ -22,6 +22,9 @@ public class ParsingTexte {
 		//nécéssaires pour les tests
 		boolean resTrue;
 		boolean resFalse;
+		
+		//ListeMots
+		ArrayList<String> liste = new ArrayList<String>();
 		
 		String line;
 		String []resSplit;
@@ -48,6 +51,12 @@ public class ParsingTexte {
 		this.hTries.prettyPrint();
 		System.out.println("\nIl y a : " + this.hTries.comptageMots() + " mot(s)");
 		System.out.println("\nIl y a : " + this.hTries.comptageNil() + " Nil");
+		
+		System.out.println("\ntest listeMots");
+		liste = hTries.listeMots("");
+		for(int i=0; i<liste.size(); i++) {
+			System.out.println(liste.get(i));
+		}
 		return;
 	}
 	
