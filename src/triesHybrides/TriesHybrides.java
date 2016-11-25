@@ -202,6 +202,55 @@ public class TriesHybrides implements ITries{
 		return liste;		
 	}
 	
+	public int hauteur(){
+		return hauteurRec(0);
+	}
+	
+	public int hauteurRec(int h){
+		
+		int newHauteur = 0;
+		
+		for(int i = 0;i < 3;i++){
+			if(fils[i] != null){
+				int rec = fils[i].hauteurRec(1);
+				if(rec > newHauteur){
+					newHauteur = rec;
+				}
+			}
+		}
+		return newHauteur + h;		
+	}
+	
+	 
+	
+	//tableau pour stocker les valeurs de retours
+	//tab[0] stock le nb de feuilles et tab[1] la somme des profondeurs
+	public int profondeurMoyenne(){
+		
+		int []tab = new int[2];
+		tab[0] = 0;
+		tab[1] = 0;
+		profondeurMoyenneRec(0,tab);				
+		return tab[1] / tab[0];
+	}
+	
+	public void profondeurMoyenneRec(int profondeur,int []tab){
+		
+		int nbFils = 0;
+		
+		for(int i = 0;i < 3;i++){
+			if(fils[i] != null){
+				nbFils++;
+				fils[i].profondeurMoyenneRec(profondeur + 1,tab);
+			}
+		}
+		if(nbFils == 0){
+			tab[0]++;
+			tab[1] += profondeur;			
+		}				
+	}
+	
+	
 	public void prettyPrint(){		
 		if(caractere != 0){
 			System.out.print(caractere + " ");

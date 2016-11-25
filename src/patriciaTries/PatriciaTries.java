@@ -131,8 +131,11 @@ public class PatriciaTries implements ITries{
 			return true;
 		}
 		else {
-			String suiteElement = element.substring(prefixeCommun.length());
-			return this.fils[index].rechercheRec(suiteElement); 
+			if(fils[index] != null){
+				String suiteElement = element.substring(prefixeCommun.length());
+				return this.fils[index].rechercheRec(suiteElement);
+			}
+			return false;
 		}
 	}
 	
@@ -187,7 +190,12 @@ public class PatriciaTries implements ITries{
 		return cpt;
 	}
 	
-	public ArrayList<String> listeMots(String pref) {
+	public ArrayList<String> listeMots(){
+		
+		return listeMotsRec("");
+	}
+	
+	public ArrayList<String> listeMotsRec(String pref) {
 		ArrayList<String> liste = new ArrayList<String>();
 		String mot = new String();
 		
@@ -201,7 +209,7 @@ public class PatriciaTries implements ITries{
 					liste.add(pref + prefixes[i]);
 				}else {
 					mot = pref + prefixes[i];
-					liste.addAll(fils[i].listeMots(mot));
+					liste.addAll(fils[i].listeMotsRec(mot));
 				}
 			}
 		}
@@ -210,17 +218,18 @@ public class PatriciaTries implements ITries{
 	}
 	
 	// on considère que si un noeud seul et pas de fils alors hauteur = 0
-	public int hauteur(int h) {
+	
+	public int hauteur(){
+		return hauteurRec(0);
+	}
+	
+	public int hauteurRec(int h) {
 		
-		int newHauteur = 0;
+		int newHauteur = 0;			
 		
-		if(prefixes[0] != null){
-			
-		}
-		
-		for(int i=0; i<prefixes.length; i++) {
-			if(prefixes[i] != null) {
-				int tmp = fils[i].hauteur(1);
+		for(int i=1; i<fils.length; i++) {
+			if(fils[i] != null) {
+				int tmp = fils[i].hauteurRec(1);
 				if(tmp > newHauteur) {
 					newHauteur = tmp;
 				}
@@ -228,6 +237,63 @@ public class PatriciaTries implements ITries{
 		}
 		return newHauteur + h;
 	}
+	
+	
+	
+	public int profondeurMoyenne(){
+		
+		int []tab = new int[2];
+		tab[0] = 0;
+		tab[1] = 0;
+		profondeurMoyenneRec(0,tab);				
+		return tab[1] / tab[0];			
+	}
+		
+	public void profondeurMoyenneRec(int profondeur,int []tab){
+		
+		int nbfils = 0;
+		
+		for(int i = 0; i < fils.length;i++){
+			if(fils[i] != null){
+				nbfils++;
+				fils[i].profondeurMoyenneRec(profondeur+1,tab);
+			}
+		}
+		if(nbfils == 0){
+			tab[0]++;
+			tab[1] += profondeur;
+		}
+		
+	}
+	
+	
+	public int prefixe(String mot){
+		
+		
+		int index = mot.charAt(0);
+		if(this.prefixes[index] == null || this.prefixes[index].length() > mot.length()){
+			return -1;
+		}
+
+		// on calcule le prefixe commun 
+		String prefixeCommun = bestPrefixe(mot,this.prefixes[index]);
+
+		if(prefixeCommun.equals(mot)){
+			if(prefixes[index].charAt(prefixes[index].length() - 1) == 0){
+				return 1;
+			}
+			return fils[index].listeMots().size();
+		}
+		else {
+			if(fils[index] != null){
+				String suiteElement = mot.substring(prefixeCommun.length());
+				return this.fils[index].prefixe(suiteElement);
+			}
+			return -1;
+		}
+			
+	}
+	
 	
 	public void prettyPrint(){
 		for(int i = 0; i < this.prefixes.length;i++){
@@ -244,6 +310,8 @@ public class PatriciaTries implements ITries{
 		
 	}
 
+		
+	
 	
 	
 	@Override

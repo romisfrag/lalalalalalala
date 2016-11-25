@@ -37,7 +37,7 @@ public class ParsingTexte {
 				//System.out.println(resSplit[i]);
 				resTrue = this.patTries.recherche(resSplit[i]);
 				resFalse = false;
-				resFalse = this.patTries.recherche("hahaha");
+				resFalse = this.patTries.recherche("quelor");
 				System.out.print(resSplit[i] + " ");
 				if(!(resTrue && !resFalse)){
 					System.out.println("failure");
@@ -54,10 +54,16 @@ public class ParsingTexte {
 		System.out.println("\nIl y a : " + patTries.comptageMots() + " mot(s)");
 		System.out.println("\nIl y a : " + patTries.comptageNil() + " Nil");
 		//test listeMots
-		liste = patTries.listeMots("");
+		liste = patTries.listeMots();		
 		for(int i = 0; i<liste.size(); i++) {
 			System.out.println(liste.get(i));
 		}
+		System.out.println("testHauteur");
+		System.out.println(patTries.hauteur());
+		System.out.println("profondeurMoyenne");
+		System.out.println(patTries.profondeurMoyenne());
+		System.out.println("test Prefixe");
+		System.out.println(patTries.prefixe("q"));
 		return;
 	}
 	

@@ -57,6 +57,10 @@ public class ParsingTexte {
 		for(int i=0; i<liste.size(); i++) {
 			System.out.println(liste.get(i));
 		}
+		System.out.println("testHauteur");
+		System.out.println(hTries.hauteur());
+		System.out.println("testProfondeurMoyenne");
+		System.out.println(hTries.profondeurMoyenne());		
 		return;
 	}
 	
