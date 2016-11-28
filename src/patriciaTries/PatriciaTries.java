@@ -266,13 +266,15 @@ public class PatriciaTries implements ITries{
 		
 	}
 	
-	
+	/* TODO : fonction a vérifier */
 	public int prefixe(String mot){
-		
-		
+				
 		int index = mot.charAt(0);
-		if(this.prefixes[index] == null || this.prefixes[index].length() > mot.length()){
-			return -1;
+		/* ici l'erreur était que on avait copié collé la recherche et que dans la recherche si le prefixe dans la case était plus grand que le mot on quittait
+		 * or ici il ne faut pas faire ça
+		 */
+		if(this.prefixes[index] == null){
+			return 0;
 		}
 
 		// on calcule le prefixe commun 
@@ -282,18 +284,69 @@ public class PatriciaTries implements ITries{
 			if(prefixes[index].charAt(prefixes[index].length() - 1) == 0){
 				return 1;
 			}
-			return fils[index].listeMots().size();
+			
+			return fils[index].comptageMots();
 		}
 		else {
 			if(fils[index] != null){
 				String suiteElement = mot.substring(prefixeCommun.length());
 				return this.fils[index].prefixe(suiteElement);
 			}
-			return -1;
+			return 0;
 		}
-			
+		
 	}
 	
+	public void suppression(String element){		
+		element = element + (char)0;
+		this.suppressionRec(element,null,-1);				
+	}
+	
+	
+	public void suppressionRec(String element,PatriciaTries Pere,int indexPere){
+		
+		int index = element.charAt(0);
+		if(this.prefixes[index] == null || this.prefixes[index].length() > element.length()){
+			return;
+		}
+	
+		/* on calcule le prefixe commun */
+		String prefixeCommun = bestPrefixe(element,this.prefixes[index]);
+		
+		if(prefixeCommun.equals(element)){
+			this.prefixes[index] = null;
+			/* cas ou on a pas besoin de remonter */
+			if(Pere == null){
+				return;
+			}
+			int nbPrefixes = 0;
+			int indice = 0;
+			for(int i = 0; i < prefixes.length;i++){
+				if(prefixes[i] != null){
+					nbPrefixes++;
+					indice = i;
+				}
+			}
+			if(nbPrefixes >= 2){
+				return;
+			}
+			// plus que un prefixe dans le noeud
+			else{				
+				Pere.prefixes[indexPere] += this.prefixes[indice];
+				Pere.fils[indexPere] = this.fils[indice];				
+			}					
+		}
+		else {
+			if(fils[index] != null){
+				String suiteElement = element.substring(prefixeCommun.length());
+				this.fils[index].suppressionRec(suiteElement,this,index);
+				return;
+			}
+			return;
+		}
+		
+	}
+
 	
 	public void prettyPrint(){
 		for(int i = 0; i < this.prefixes.length;i++){
@@ -314,12 +367,7 @@ public class PatriciaTries implements ITries{
 	
 	
 	
-	@Override
-	public void suppression(String element) {
-
-		
-	}
-
+	
 
 		
 	

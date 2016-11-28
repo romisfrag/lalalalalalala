@@ -63,7 +63,14 @@ public class ParsingTexte {
 		System.out.println("profondeurMoyenne");
 		System.out.println(patTries.profondeurMoyenne());
 		System.out.println("test Prefixe");
-		System.out.println(patTries.prefixe("q"));
+		System.out.println(patTries.prefixe("dactylo"));
+		System.out.println("Test suppression");
+		System.out.println(patTries.comptageMots());
+		patTries.suppression("machine");
+		System.out.println(patTries.comptageMots());
+		System.out.println("lol");
+		System.out.println(patTries.comptageMots());
+		patTries.prettyPrint();
 		return;
 	}
 	

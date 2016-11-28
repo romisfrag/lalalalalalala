@@ -81,11 +81,6 @@ public class TriesHybrides implements ITries{
 	}
 
 
-	@Override
-	public void suppression(String element) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	@Override
@@ -250,6 +245,42 @@ public class TriesHybrides implements ITries{
 		}				
 	}
 	
+	public int prefixe(String mot){
+		if(mot == null){
+			return 0;
+		}
+		char premiereLettre = mot.charAt(0);
+
+		if(premiereLettre == caractere){
+
+			if(mot.length() == 1){
+				if(fils[MILIEU] == null && valeur != -1){
+					return 1;
+				}
+				return this.fils[MILIEU].comptageMots();
+			}
+			if(fils[MILIEU] != null){				
+				return fils[MILIEU].prefixe(mot.substring(1));
+			}
+		}
+		else if(premiereLettre < caractere){
+			if(fils[GAUCHE] != null){				
+				return fils[GAUCHE].prefixe(mot);
+			}			
+		}
+		else{
+			if(fils[DROIT] != null){				
+				return fils[DROIT].prefixe(mot);
+			}						
+		}
+		return 0;
+	}
+	
+	@Override
+	public void suppression(String element) {
+		
+	}
+	
 	
 	public void prettyPrint(){		
 		if(caractere != 0){
@@ -273,6 +304,9 @@ public class TriesHybrides implements ITries{
 		}
 		return;		
 	}
+
+
+	
 	
 	
 	

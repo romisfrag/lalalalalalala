@@ -60,7 +60,9 @@ public class ParsingTexte {
 		System.out.println("testHauteur");
 		System.out.println(hTries.hauteur());
 		System.out.println("testProfondeurMoyenne");
-		System.out.println(hTries.profondeurMoyenne());		
+		System.out.println(hTries.profondeurMoyenne());
+		System.out.println("test prefixe");
+		System.out.println(hTries.prefixe("e"));
 		return;
 	}
 	
