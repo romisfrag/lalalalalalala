@@ -6,17 +6,18 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		ParsingTexte t = new ParsingTexte("test/test.txt");
-		t.fullfillTries();
+		PatriciaTries patTries1 = t.fullfillTries();
 		
+		System.out.println("start 2nd file");
+		ParsingTexte t2 = new ParsingTexte("test/test2.txt");
+		PatriciaTries patTries2 = t2.fullfillTries();
 		
-		/*
-		if("a".compareTo("b") < 0){
-			System.out.println("a".compareTo("b"));
-		}
-		else{
-			System.out.println("failure");
-		}
-		*/
+		System.out.println("statfusion");
+		PatriciaTries resultatFusion = patTries1.fusion(patTries2);
+		
+		System.out.println("begining pritint fusion");
+		resultatFusion.prettyPrint();
+		
 		return;
 	}
 

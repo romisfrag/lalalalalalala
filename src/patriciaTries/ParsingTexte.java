@@ -14,12 +14,13 @@ public class ParsingTexte {
 	private File fichier;
 	
 	
+	
 	public ParsingTexte(String fileName){
 		this.fichier = new File(fileName);		
 		this.patTries = new PatriciaTries(); 
 	}
 	
-	public void fullfillTries() throws IOException{
+	public PatriciaTries fullfillTries() throws IOException{
 		//nécéssaires pour les tests
 		boolean resTrue;
 		boolean resFalse;
@@ -30,6 +31,7 @@ public class ParsingTexte {
 		String line;
 		String []resSplit;
 		BufferedReader buff = new BufferedReader(new FileReader(this.fichier));
+		/* test insertion */
 		while((line = buff.readLine()) != null){
 			resSplit = line.split(" ");
 			for(int i = 0; i < resSplit.length;i++){
@@ -64,14 +66,16 @@ public class ParsingTexte {
 		System.out.println(patTries.profondeurMoyenne());
 		System.out.println("test Prefixe");
 		System.out.println(patTries.prefixe("dactylo"));
-		System.out.println("Test suppression");
-		System.out.println(patTries.comptageMots());
-		patTries.suppression("machine");
-		System.out.println(patTries.comptageMots());
-		System.out.println("lol");
-		System.out.println(patTries.comptageMots());
-		patTries.prettyPrint();
-		return;
+		//System.out.println("Test suppression");
+		//test suppression
+		//System.out.println(patTries.comptageMots());
+		//patTries.suppression("p");
+		//System.out.println(patTries.comptageMots());
+		//System.out.println("lol");
+		//System.out.println(patTries.comptageMots());
+		//patTries.prettyPrint();			
+		
+		return patTries;
 	}
 	
 	

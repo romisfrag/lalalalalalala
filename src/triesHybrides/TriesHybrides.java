@@ -276,9 +276,48 @@ public class TriesHybrides implements ITries{
 		return 0;
 	}
 	
-	@Override
-	public void suppression(String element) {
-		
+	
+	public void suppression(String element){
+				
+	}
+	
+	public TriesHybrides suppressionRec(String element) {
+		if(element == null){
+			return this;
+		}
+		char premiereLettre = element.charAt(0);
+
+		if(premiereLettre == caractere){
+
+			if(element.length() == 1){
+				/* ici on a trouver le mot */
+				if(compteur > 0){					
+					if(fils[MILIEU] == null){
+						fils[DROIT]
+					}
+					/* sinon il faut laisser le noeud tel quel */
+					else{
+						return this;
+					}
+				}
+				
+				return false;
+			}
+			if(fils[MILIEU] != null){				
+				return fils[MILIEU].suppressionRec(element.substring(1));
+			}
+		}
+		else if(premiereLettre < caractere){
+			if(fils[GAUCHE] != null){				
+				return fils[GAUCHE].recherche(element);
+			}			
+		}
+		else{
+			if(fils[DROIT] != null){				
+				return fils[DROIT].recherche(element);
+			}						
+		}
+		return this;
 	}
 	
 	

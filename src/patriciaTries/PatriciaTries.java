@@ -347,6 +347,54 @@ public class PatriciaTries implements ITries{
 		
 	}
 
+	// TODO: a tester 
+	public PatriciaTries fusion(PatriciaTries second){
+		
+		PatriciaTries resFusion = new PatriciaTries();
+		fusionRec(second,resFusion);
+		return resFusion;
+	}
+	
+	public void fusionRec(PatriciaTries second,PatriciaTries resultat)
+	{
+		PatriciaTries newFils;
+		String prefixeCommun;
+		String suitePrefixeA;
+		String suitePrefixeB;
+		
+		for(int i = 0; i < this.prefixes.length;i++){
+			
+			if(this.prefixes[i] == null){
+				resultat.prefixes[i] = second.prefixes[i];
+				resultat.fils[i] = second.fils[i];
+			}
+			else if(second.prefixes[i] == null){
+				resultat.prefixes[i] = this.prefixes[i];
+				resultat.fils[i] = this.fils[i];
+			}
+			else if(this.prefixes[i] == second.prefixes[i]){
+				 resultat.prefixes[i] = this.prefixes[i];
+				 newFils = new PatriciaTries();
+				 this.fils[i].fusionRec(second.fils[i],newFils);
+				 resultat.fils[i] = newFils;
+			}
+			/* il existe deux prefixes mais il ne sont pas les memes */
+			else{
+				prefixeCommun = bestPrefixe(this.prefixes[i],second.prefixes[i]);
+				resultat.prefixes[i] = prefixeCommun;
+				newFils = new PatriciaTries();				
+				suitePrefixeA = this.prefixes[i].substring(prefixeCommun.length());
+				suitePrefixeB = second.prefixes[i].substring(prefixeCommun.length());
+				
+				newFils.prefixes[suitePrefixeA.charAt(0)] = suitePrefixeA;
+				newFils.fils[suitePrefixeA.charAt(0)] = this.fils[i]; 
+								
+				newFils.prefixes[suitePrefixeB.charAt(0)] = suitePrefixeB;
+				newFils.fils[suitePrefixeB.charAt(0)] = second.fils[i];				
+			}
+		}		
+	}
+	
 	
 	public void prettyPrint(){
 		for(int i = 0; i < this.prefixes.length;i++){
