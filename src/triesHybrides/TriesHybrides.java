@@ -280,6 +280,7 @@ public class TriesHybrides implements ITries{
 	}
 	
 	
+	
 /*	public void suppression(String element){
 				
 	}

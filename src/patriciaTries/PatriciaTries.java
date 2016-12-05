@@ -412,6 +412,36 @@ public class PatriciaTries implements ITries{
 				resultat.fils[i] = newFils;
 			}
 		}		
+	}		
+	
+	/* permet de créer un arbre en ligne droite a partir d'un mot en lui mettant en fils l'arbre crée un argument */
+	public TriesHybrides createNode(String element, TriesHybrides son){
+		
+		if(element == null){
+			return son;
+		}		
+		else if(element.length() == 2){
+			TriesHybrides node = new TriesHybrides();
+			if(element.charAt(1) == 0){
+				node.valeur = node.getAndIncrementCompteur();
+			}			
+			node.caractere = element.charAt(0);
+			node.fils[1] = son;
+			return node;
+		}
+		else{
+			TriesHybrides node = new TriesHybrides();					
+			node.caractere = element.charAt(0);			
+			String suiteElement = element.substring(1);
+			node.fils[1] = createNode(suiteElement,son);
+			return node;			
+		}								
+	}
+	
+	public void changeRef(TriesHybrides a,TriesHybrides b){
+		TriesHybrides temp = a;
+		a = b;
+		b = temp;
 	}
 	
 	/* a voir */
@@ -431,14 +461,17 @@ public class PatriciaTries implements ITries{
 		
 		
 		int milieu = ((noeudsActifs.size() - 1) / 2) + 1;
-		System.out.println(milieu);
-		TriesHybrides filsTemp = null;
-		TriesHybrides res = null;
-		TriesHybrides temp = null;
+		System.out.println(milieu);		
 		int indice;
+		TriesHybrides filsTemp = null;	
 		
 		/* premiere boucle pour construire la partie droite */
 		for(int i = noeudsActifs.size() - 1; i >= milieu; i--){
+			
+			/* on déclare ici car variable locale et donc ça va nous aider */					
+			TriesHybrides temp = null;
+			TriesHybrides res = null;
+			
 			indice = noeudsActifs.get(i);
 			System.out.println(prefixes[indice]);
 			/* on commence par l'appel recursif sur le fils du noeud a traiter */
@@ -448,35 +481,20 @@ public class PatriciaTries implements ITries{
 					
 			/* pour verifier si le mot se termine dans la case */
 			int tailleMot = prefixes[indice].length() - 1;
-			boolean isFinish = false;
-			if(prefixes[indice].charAt(tailleMot - 1) == 0){
-				tailleMot--;
-				isFinish = true;
-			}
-			else{
+			String mot = prefixes[indice];
+			
+			/* si le mot se termine à l'aide du fils */
+			if(mot.charAt(tailleMot - 1) != 0){
 				if(fils[indice] != null){
 					if(fils[indice].prefixes[0] != null){
-						isFinish = true;
+						mot = mot + (char)0;
 					}
 				}
-			}
-			
-			/* TODO : changer tout ça par une fonction recursive qui prend en parametre une chaine de caractère et crée l'arbre resultant de cette chaine */
-			/* on fera donc le truc à l'endroit */
-			for(int j = tailleMot; j >= 0;j--){
-				temp = new TriesHybrides();
-				/* fils du milieu */
-				temp.fils[1] = res;
-				temp.caractere = prefixes[indice].charAt(j);
-				/* pour le cas de fin de mot */
-				if(isFinish && j == tailleMot){
-					temp.valeur = temp.getAndIncrementCompteur();
-				}
-				res = temp;
-			}
-			res.fils[2] = filsTemp;
-			filsTemp = res;
-			res = null;
+			}								
+			temp = createNode(mot,res);
+			temp.fils[0] = filsTemp;
+			changeRef(filsTemp,temp);
+			//filsTemp = temp;			
 		}
 		
 		
@@ -485,6 +503,9 @@ public class PatriciaTries implements ITries{
 		
 		/* traitement fils gauche */
 		for(int i = 0; i < milieu; i++){
+			TriesHybrides temp = null;
+			TriesHybrides res = null;
+			
 			indice = noeudsActifs.get(i);
 			if(fils[indice] != null){
 				res = fils[indice].patriciaToHybride();
@@ -492,40 +513,29 @@ public class PatriciaTries implements ITries{
 			
 			/* pour verifier si le mot se termine dans la case */
 			int tailleMot = prefixes[indice].length() - 1;
-			boolean isFinish = false;
-			if(prefixes[indice].charAt(tailleMot) == 0){
-				tailleMot--;
-				isFinish = true;
-			}
-			/* sinon verifier que dans les fils il n'y as pas un epsilone */
-			else{
+			String mot = prefixes[indice];
+			
+			/* si le mot se termine à l'aide du fils */
+			if(mot.charAt(tailleMot - 1) != 0){
 				if(fils[indice] != null){
 					if(fils[indice].prefixes[0] != null){
-						isFinish = true;
+						mot = mot + (char)0;
 					}
 				}
 			}
 			
-			for(int j = tailleMot; j >= 0;j--){
-				temp = new TriesHybrides();
-				/* fils du milieu */
-				temp.fils[1] = res;
-				/* pour le cas de fin de mot */
-				temp.caractere = prefixes[indice].charAt(j);
-				if(isFinish && j == tailleMot){
-					temp.valeur = temp.getAndIncrementCompteur();
-				}
-				res = temp;
-			}
-			res.fils[0] = filsTemp;
-			filsTemp = res;
+			temp = createNode(mot,res);
+			temp.fils[0] = filsTemp;			
+			changeRef(filsTemp,temp);
+			//filsTemp = temp;				
 		}
-		if(ret != null){
-			ret.fils[0] = filsTemp;			
+		if(filsTemp != null){
+			filsTemp.fils[0] = filsTemp;			
 		}
 		else{
 			ret = filsTemp;
 		}
+		System.out.println("ending");
 		return ret;					
 	}
 	
