@@ -6,9 +6,9 @@ import interfaces.ITries;
 
 public class TriesHybrides implements ITries{
 	
-	private char caractere;
-	private int valeur;
-	private TriesHybrides[] fils;
+	public char caractere;
+	public int valeur;
+	public TriesHybrides[] fils;
 	
 	/* macros */
 	public static final int GAUCHE = 0;
@@ -25,6 +25,9 @@ public class TriesHybrides implements ITries{
 		this.fils = new TriesHybrides[3];
 	}
 
+	public int getAndIncrementCompteur(){
+		return compteur++;
+	}
 
 	@Override
 	public void insertion(String element) {

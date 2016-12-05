@@ -2,6 +2,7 @@ package patriciaTries;
 
 import java.util.ArrayList;
 
+import triesHybrides.TriesHybrides;
 import interfaces.ITries;
 
 public class PatriciaTries implements ITries{
@@ -393,6 +394,107 @@ public class PatriciaTries implements ITries{
 				newFils.fils[suitePrefixeB.charAt(0)] = second.fils[i];				
 			}
 		}		
+	}
+	
+	/* a voir */
+	@SuppressWarnings("null")
+	public TriesHybrides patriciaToHybride(){
+								
+		ArrayList<Integer> noeudsActifs = new ArrayList<Integer>();
+		
+		/* on commence a 1 car l'information de fin de mot est recuperer ulterieurement */
+		for(int i = 1; i < prefixes.length;i++){
+			if(prefixes[i] != null){
+				noeudsActifs.add(i);
+			}
+		}
+		
+		
+		int milieu = (noeudsActifs.size() / 2) + 1;
+		TriesHybrides filsTemp = null;
+		TriesHybrides res = null;
+		TriesHybrides temp;
+		int indice;
+		
+		/* premiere boucle pour construire la partie droite */
+		for(int i = noeudsActifs.size() - 1; i >= milieu; i--){
+			indice = noeudsActifs.get(i);
+			/* on commence par l'appel recursif sur le fils du noeud a traiter */
+			if(fils[indice] != null){
+				res = fils[indice].patriciaToHybride();
+			}
+					
+			/* pour verifier si le mot se termine dans la case */
+			int tailleMot = prefixes[indice].length();
+			boolean isFinish = false;
+			if(prefixes[indice].charAt(tailleMot - 1) == 0){
+				tailleMot--;
+				isFinish = true;
+			}
+			else{
+				if(fils[indice] != null){
+					if(fils[indice].prefixes[0] != null){
+						isFinish = true;
+					}
+				}
+			}
+			
+			for(int j = tailleMot; j > 0;j++){
+				temp = new TriesHybrides();
+				/* fils du milieu */
+				temp.fils[1] = res;
+				/* pour le cas de fin de mot */
+				if(isFinish && j == tailleMot){
+					temp.valeur = temp.getAndIncrementCompteur();
+				}
+				res = temp;
+			}
+			res.fils[2] = filsTemp;
+			filsTemp = res;
+			res = null;
+		}
+		/* on stock le fils du milieu */
+		TriesHybrides ret = filsTemp;
+		
+		/* traitement fils gauche */
+		for(int i = 0; i < milieu; i++){
+			indice = noeudsActifs.get(i);
+			if(fils[indice] != null){
+				res = fils[indice].patriciaToHybride();
+			}
+			
+			/* pour verifier si le mot se termine dans la case */
+			int tailleMot = prefixes[indice].length();
+			boolean isFinish = false;
+			if(prefixes[indice].charAt(tailleMot - 1) == 0){
+				tailleMot--;
+				isFinish = true;
+			}
+			else{
+				if(fils[indice] != null){
+					if(fils[indice].prefixes[0] != null){
+						isFinish = true;
+					}
+				}
+			}
+			/* sinon verifier que dans les fils il n'y as pas un epsilone */
+			
+			for(int j = tailleMot; j > 0;j++){
+				temp = new TriesHybrides();
+				/* fils du milieu */
+				temp.fils[1] = res;
+				/* pour le cas de fin de mot */
+				if(isFinish && j == tailleMot){
+					temp.valeur = temp.getAndIncrementCompteur();
+				}
+				res = temp;
+			}
+			res.fils[0] = filsTemp;
+			filsTemp = res;
+		}
+		
+		ret.fils[0] = filsTemp;		
+		return ret;					
 	}
 	
 	
