@@ -27,6 +27,20 @@ public class PatriciaTries implements ITries{
 		this.fils[index] = son;
 	}
 	*/
+	
+	public String getPrefixe(int i){
+		return prefixes[i];
+	}
+	public PatriciaTries getFils(int i){
+		return fils[i];
+	}
+	
+	public void setPrefixe(int i, String prefixe){
+		this.prefixes[i] = prefixe;
+	}
+	public void setFils(int i,PatriciaTries son){
+		this.fils[i] = son;
+	}
 
 	@Override
 	public void insertion(String element){

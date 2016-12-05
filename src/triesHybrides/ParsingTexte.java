@@ -18,7 +18,7 @@ public class ParsingTexte {
 		this.hTries = new TriesHybrides(); 
 	}
 	
-	public void fullfillTries() throws IOException{
+	public TriesHybrides fullfillTries() throws IOException{
 		//nécéssaires pour les tests
 		boolean resTrue;
 		boolean resFalse;
@@ -63,7 +63,7 @@ public class ParsingTexte {
 		System.out.println(hTries.profondeurMoyenne());
 		System.out.println("test prefixe");
 		System.out.println(hTries.prefixe("e"));
-		return;
+		return hTries;
 	}
 	
 	

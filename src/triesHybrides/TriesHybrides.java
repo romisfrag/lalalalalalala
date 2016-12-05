@@ -3,6 +3,7 @@ package triesHybrides;
 import java.util.ArrayList;
 
 import interfaces.ITries;
+import patriciaTries.PatriciaTries;
 
 public class TriesHybrides implements ITries{
 	
@@ -324,6 +325,60 @@ public class TriesHybrides implements ITries{
 		return this;
 	}
 	*/
+	
+	public PatriciaTries hybrideToPatricia(){
+		
+		/* TODO : faire le premier cas de base ou il n'y a que le fils du milieu dans le fils passer en argument Pour l'arbre a un element */
+		
+		return hybrideToPatriciaRec(null,-1);
+	}
+	
+	public PatriciaTries hybrideToPatriciaRec(PatriciaTries courrant,int indice){
+		
+		PatriciaTries newTries;
+				
+		
+		/* cela signifie qu'il faut crée un nouveau Patricia Tries */
+		if(fils[GAUCHE] != null || fils[DROIT] != null){
+			PatriciaTries resGauche;
+			PatriciaTries resDroit;
+			
+			newTries = new PatriciaTries();
+			/* TODO: a changer ces if moches */
+			if(this.fils[GAUCHE] != null){
+				resGauche = this.fils[GAUCHE].hybrideToPatriciaRec(newTries,-1);
+				if(this.fils[DROIT] != null){
+					resDroit = this.fils[DROIT].hybrideToPatriciaRec(resGauche, -1);				
+				}								
+			}
+			else{
+				if(this.fils[DROIT] != null){
+					resDroit = this.fils[DROIT].hybrideToPatriciaRec(newTries, -1);
+				}				
+				else{
+					resDroit = newTries;
+				}
+			}									
+			/* on rappel la fonction avec les fils droits et gauches a null  pour ne pas avoir besoin de réecrire du code*/ 
+			fils[GAUCHE] = null;
+			fils[DROIT] = null;
+			return this.hybrideToPatriciaRec(resDroit,-1);
+		}		
+		/*Si aucun des fils droits et gauches ne sont remplis */
+		else if (fils[MILIEU] != null){
+			/* si l'indice pas initialiser alors il faut considerer comme indice la lettre en cours */ 
+			if(indice == -1){
+				indice = (int)this.caractere;
+			}			
+			String newPrefixe = courrant.getPrefixe(indice) + this.caractere;
+			courrant.setPrefixe(indice, newPrefixe);	
+			return this.fils[MILIEU].hybrideToPatriciaRec(courrant, indice);
+		}
+		/* Cas de base, tout le monde est vide */
+		else{
+			return courrant;
+		}
+	}
 	
 	public void prettyPrint(){		
 		if(caractere != 0){
