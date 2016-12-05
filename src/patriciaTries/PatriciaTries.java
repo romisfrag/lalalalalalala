@@ -373,13 +373,18 @@ public class PatriciaTries implements ITries{
 				resultat.prefixes[i] = this.prefixes[i];
 				resultat.fils[i] = this.fils[i];
 			}
-			else if(this.prefixes[i] == second.prefixes[i]){
+			else if(this.prefixes[i].equals(second.prefixes[i])){
 				 resultat.prefixes[i] = this.prefixes[i];
-				 newFils = new PatriciaTries();
-				 this.fils[i].fusionRec(second.fils[i],newFils);
-				 resultat.fils[i] = newFils;
+				 
+				 /* pour ne pas faire un appel inutile et initialiser un fils pour rien */				 
+				 if(this.prefixes[i].charAt(this.prefixes[i].length()-1) != 0){
+					 System.out.println("print lol");
+					 newFils = new PatriciaTries();					 
+					 this.fils[i].fusionRec(second.fils[i],newFils);
+					 resultat.fils[i] = newFils;
+				 }				 				 
 			}
-			/* il existe deux prefixes mais il ne sont pas les memes */
+			/* ils ont un prefixe commun et ne sont pas les memes  */
 			else{
 				prefixeCommun = bestPrefixe(this.prefixes[i],second.prefixes[i]);
 				resultat.prefixes[i] = prefixeCommun;
@@ -387,11 +392,24 @@ public class PatriciaTries implements ITries{
 				suitePrefixeA = this.prefixes[i].substring(prefixeCommun.length());
 				suitePrefixeB = second.prefixes[i].substring(prefixeCommun.length());
 				
-				newFils.prefixes[suitePrefixeA.charAt(0)] = suitePrefixeA;
-				newFils.fils[suitePrefixeA.charAt(0)] = this.fils[i]; 
-								
-				newFils.prefixes[suitePrefixeB.charAt(0)] = suitePrefixeB;
-				newFils.fils[suitePrefixeB.charAt(0)] = second.fils[i];				
+				if(prefixeCommun.length() != this.prefixes[i].length()){
+					newFils.prefixes[suitePrefixeA.charAt(0)] = suitePrefixeA;				
+					newFils.fils[suitePrefixeA.charAt(0)] = this.fils[i];
+				}
+				else{
+					newFils.prefixes[0] = "" + (char)0;
+				}
+				
+				
+				if(prefixeCommun.length() != this.prefixes[i].length()){
+					newFils.prefixes[suitePrefixeB.charAt(0)] = suitePrefixeB;
+					newFils.fils[suitePrefixeB.charAt(0)] = second.fils[i];
+				}
+				else{
+					newFils.prefixes[0] = "" + (char)0;
+				}
+				
+				resultat.fils[i] = newFils;
 			}
 		}		
 	}
@@ -399,6 +417,7 @@ public class PatriciaTries implements ITries{
 	/* a voir */
 	@SuppressWarnings("null")
 	public TriesHybrides patriciaToHybride(){
+		System.out.println("entrer");
 								
 		ArrayList<Integer> noeudsActifs = new ArrayList<Integer>();
 		
@@ -410,22 +429,25 @@ public class PatriciaTries implements ITries{
 		}
 		
 		
-		int milieu = (noeudsActifs.size() / 2) + 1;
+		
+		int milieu = ((noeudsActifs.size() - 1) / 2) + 1;
+		System.out.println(milieu);
 		TriesHybrides filsTemp = null;
 		TriesHybrides res = null;
-		TriesHybrides temp;
+		TriesHybrides temp = null;
 		int indice;
 		
 		/* premiere boucle pour construire la partie droite */
 		for(int i = noeudsActifs.size() - 1; i >= milieu; i--){
 			indice = noeudsActifs.get(i);
+			System.out.println(prefixes[indice]);
 			/* on commence par l'appel recursif sur le fils du noeud a traiter */
 			if(fils[indice] != null){
 				res = fils[indice].patriciaToHybride();
 			}
 					
 			/* pour verifier si le mot se termine dans la case */
-			int tailleMot = prefixes[indice].length();
+			int tailleMot = prefixes[indice].length() - 1;
 			boolean isFinish = false;
 			if(prefixes[indice].charAt(tailleMot - 1) == 0){
 				tailleMot--;
@@ -439,10 +461,13 @@ public class PatriciaTries implements ITries{
 				}
 			}
 			
-			for(int j = tailleMot; j > 0;j++){
+			/* TODO : changer tout ça par une fonction recursive qui prend en parametre une chaine de caractère et crée l'arbre resultant de cette chaine */
+			/* on fera donc le truc à l'endroit */
+			for(int j = tailleMot; j >= 0;j--){
 				temp = new TriesHybrides();
 				/* fils du milieu */
 				temp.fils[1] = res;
+				temp.caractere = prefixes[indice].charAt(j);
 				/* pour le cas de fin de mot */
 				if(isFinish && j == tailleMot){
 					temp.valeur = temp.getAndIncrementCompteur();
@@ -453,6 +478,8 @@ public class PatriciaTries implements ITries{
 			filsTemp = res;
 			res = null;
 		}
+		
+		
 		/* on stock le fils du milieu */
 		TriesHybrides ret = filsTemp;
 		
@@ -464,12 +491,13 @@ public class PatriciaTries implements ITries{
 			}
 			
 			/* pour verifier si le mot se termine dans la case */
-			int tailleMot = prefixes[indice].length();
+			int tailleMot = prefixes[indice].length() - 1;
 			boolean isFinish = false;
-			if(prefixes[indice].charAt(tailleMot - 1) == 0){
+			if(prefixes[indice].charAt(tailleMot) == 0){
 				tailleMot--;
 				isFinish = true;
 			}
+			/* sinon verifier que dans les fils il n'y as pas un epsilone */
 			else{
 				if(fils[indice] != null){
 					if(fils[indice].prefixes[0] != null){
@@ -477,13 +505,13 @@ public class PatriciaTries implements ITries{
 					}
 				}
 			}
-			/* sinon verifier que dans les fils il n'y as pas un epsilone */
 			
-			for(int j = tailleMot; j > 0;j++){
+			for(int j = tailleMot; j >= 0;j--){
 				temp = new TriesHybrides();
 				/* fils du milieu */
 				temp.fils[1] = res;
 				/* pour le cas de fin de mot */
+				temp.caractere = prefixes[indice].charAt(j);
 				if(isFinish && j == tailleMot){
 					temp.valeur = temp.getAndIncrementCompteur();
 				}
@@ -492,8 +520,12 @@ public class PatriciaTries implements ITries{
 			res.fils[0] = filsTemp;
 			filsTemp = res;
 		}
-		
-		ret.fils[0] = filsTemp;		
+		if(ret != null){
+			ret.fils[0] = filsTemp;			
+		}
+		else{
+			ret = filsTemp;
+		}
 		return ret;					
 	}
 	

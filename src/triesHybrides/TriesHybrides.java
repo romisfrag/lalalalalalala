@@ -280,7 +280,7 @@ public class TriesHybrides implements ITries{
 	}
 	
 	
-	public void suppression(String element){
+/*	public void suppression(String element){
 				
 	}
 	
@@ -293,12 +293,12 @@ public class TriesHybrides implements ITries{
 		if(premiereLettre == caractere){
 
 			if(element.length() == 1){
-				/* ici on a trouver le mot */
+				// ici on a trouver le mot 
 				if(compteur > 0){					
 					if(fils[MILIEU] == null){
 						fils[DROIT]
 					}
-					/* sinon il faut laisser le noeud tel quel */
+					// sinon il faut laisser le noeud tel quel 
 					else{
 						return this;
 					}
@@ -322,7 +322,7 @@ public class TriesHybrides implements ITries{
 		}
 		return this;
 	}
-	
+	*/
 	
 	public void prettyPrint(){		
 		if(caractere != 0){
@@ -345,6 +345,12 @@ public class TriesHybrides implements ITries{
 				
 		}
 		return;		
+	}
+
+	@Override
+	public void suppression(String element) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
