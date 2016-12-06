@@ -301,7 +301,7 @@ public class TriesHybrides implements ITries{
 			if(element.length() == 1){
 				// ici on a trouver l'élément donc on retourne l'arbre vide
 				if(compteur > 0){
-					// si on était une feuille de l'arbre
+					// si on était une feuille de l'arbre alors pour supprimer juste retirer la valeur
 					if(fils[MILIEU] != null ){
 						this.valeur = -1;
 					}
@@ -321,37 +321,91 @@ public class TriesHybrides implements ITries{
 				// si l'élément n'était pas dans l'abre on le retourne tel quel 
 				return this;
 			}
+			
 			// c'est a la remonté qu'il faut tester si on doit supprimer des noeuds supplémentaires 
 			// donc on stock tous les appels recursifs dans rec et on test à la fin
 			if(fils[MILIEU] != null){				
 				res =  fils[MILIEU].suppressionRec(element.substring(1));
+				
+				/* a la remonté il faut modifier uniquement si le resultat est null est si on est pas sur un mot */
+				if(res == null && valeur != -1){
+					if(fils[GAUCHE] != null){
+						/* si les deux fils ne sont pas vides */
+						if(fils[DROIT] != null){
+							/* ecrire la fonction pour mettre un des arbre dans le bon endroit dans l'autre */
+						}
+						else{
+							return fils[GAUCHE];
+						}
+					}
+					else{
+						if(fils[DROIT] == null){
+							fils[MILIEU] = fils[DROIT];
+						}	
+						/* aucun des trois fils n'existe et pas de valeur donc return null*/
+						else{
+							return null;
+						}
+					}
+				}
+				else{
+					fils[MILIEU] = res;
+				}
 			}
 		}
+		/* maintenant si l'appel venait de la gauche */
 		else if(premiereLettre < caractere){
 			if(fils[GAUCHE] != null){				
 				res =  fils[GAUCHE].suppressionRec(element);
-			}			
+				if(fils[MILIEU] == null && valeur == -1){
+					if(res != null){
+						return fils[DROIT];
+					}
+					else{
+						if(fils[DROIT] == null){
+							return res;
+						}
+						else{
+							/* appel de la fonction qui fait la collision entre les deux fils */
+						}
+					}
+				}
+				else{
+					fils[GAUCHE] = res;
+				}
+			}
+			/* si il n'y a pas de fils pour faire la recherche alors retourner abre tel quel */
+			else{
+				return this;
+			}
 		}
 		else{
 			if(fils[DROIT] != null){				
 				res = fils[DROIT].suppressionRec(element);
-			}						
-		}
-		
-		if(res == null){
-			if(valeur != -1){
+				if(fils[MILIEU] == null && valeur == -1){
+					if(fils[GAUCHE] != null){
+						if(res != null){
+							/* appel de la fonction qui fait la collisiion entre les deux fils */
+						}
+						else{
+							return fils[GAUCHE];
+						}
+					}
+					else{
+						if(res != null){
+							return res;
+						}
+						else{
+							return null;
+						}
+					}
+				}
+			}	
+			/* cas ou le mot n'est pas présent dans l'arbre */
+			else{
 				return this;
 			}
-			if(fils[DROIT] != null){
-				if(fils[GAUCHE] != null){
-					
-				}
-			}
-			if(fils[])
-		}
-		
-			
-			
+		}							
 	}
 	
 	
