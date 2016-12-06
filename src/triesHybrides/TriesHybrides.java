@@ -286,6 +286,45 @@ public class TriesHybrides implements ITries{
 				
 	}
 	
+	/* cette fonction va crée un nouvel arbre dont la racine sera celle du fils gauche et 
+	 * on met le fils droit comme fils de coté de la racine
+	 */
+	public TriesHybrides filsGaucheDroit(TriesHybrides gauche,TriesHybrides droit){
+		System.out.println("appel");
+		if(gauche == null){
+			return droit;
+		}
+		/* on a la garantie que les deux valeurs sont forcéments différentes */
+		if(droit.caractere > gauche.caractere){
+			if(gauche.fils[DROIT] == null){
+				gauche.fils[DROIT] = droit;
+				return gauche;
+			}
+			else{
+				gauche.fils[DROIT] =  filsGaucheDroit(gauche.fils[DROIT],droit);
+				return gauche;				
+			}
+		}
+		/* sinon on sait que c'est plus grand */
+		else if(droit.caractere < gauche.caractere){
+			if(gauche.fils[GAUCHE] == null){				
+				gauche.fils[GAUCHE] = droit;				
+				return gauche;								
+			}
+			else{				
+				gauche.fils[GAUCHE] = filsGaucheDroit(gauche.fils[GAUCHE], droit);
+				return gauche;
+				
+			}
+		}
+		/* cas impossible */
+		else{
+			System.out.println("this is not possible that this happend");
+			return null;
+		}		
+	}
+	
+	
 	public TriesHybrides suppressionRec(String element) {
 		
 		if(element == null){
@@ -307,7 +346,7 @@ public class TriesHybrides implements ITries{
 					}
 					else if(fils[DROIT] != null){
 						if(fils[GAUCHE] != null){
-							
+							return filsGaucheDroit(fils[GAUCHE],fils[DROIT]);
 						}
 						else{
 							return fils[GAUCHE];
@@ -315,7 +354,13 @@ public class TriesHybrides implements ITries{
 					}
 					// ici seul le fils gauche peut etre non nul mais au pire on retourne null 
 					else{
-						return fils[GAUCHE];
+						if(fils[GAUCHE] != null){
+							return fils[GAUCHE];
+						}
+						else{
+							System.out.println("ca se passe ici hein");
+							return null;
+						}
 					}
 				}				
 				// si l'élément n'était pas dans l'abre on le retourne tel quel 
@@ -324,37 +369,45 @@ public class TriesHybrides implements ITries{
 			
 			// c'est a la remonté qu'il faut tester si on doit supprimer des noeuds supplémentaires 
 			// donc on stock tous les appels recursifs dans rec et on test à la fin
-			if(fils[MILIEU] != null){				
+			if(fils[MILIEU] != null){
+				System.out.println("ici 3 fois lol");
 				res =  fils[MILIEU].suppressionRec(element.substring(1));
-				
+				System.out.println(res);
+				System.out.println(valeur);
 				/* a la remonté il faut modifier uniquement si le resultat est null est si on est pas sur un mot */
-				if(res == null && valeur != -1){
-					if(fils[GAUCHE] != null){
+				if(res == null && valeur == -1){
+					System.out.println("hello world");
+					if(fils[GAUCHE] != null){						
 						/* si les deux fils ne sont pas vides */
-						if(fils[DROIT] != null){
-							/* ecrire la fonction pour mettre un des arbre dans le bon endroit dans l'autre */
+						if(fils[DROIT] != null){							
+							return filsGaucheDroit(fils[GAUCHE],fils[DROIT]);
 						}
 						else{
 							return fils[GAUCHE];
 						}
 					}
 					else{
-						if(fils[DROIT] == null){
+						if(fils[DROIT] != null){
 							fils[MILIEU] = fils[DROIT];
 						}	
 						/* aucun des trois fils n'existe et pas de valeur donc return null*/
 						else{
+							System.out.println("why not");
 							return null;
 						}
 					}
 				}
-				else{
+				else{					
 					fils[MILIEU] = res;
 				}
 			}
+			
+			/* ici on sait que le mot n'est pas dans l'arbre */
+			return this;
 		}
 		/* maintenant si l'appel venait de la gauche */
 		else if(premiereLettre < caractere){
+			System.out.println("j'aime quand c'est la");
 			if(fils[GAUCHE] != null){				
 				res =  fils[GAUCHE].suppressionRec(element);
 				if(fils[MILIEU] == null && valeur == -1){
@@ -365,8 +418,8 @@ public class TriesHybrides implements ITries{
 						if(fils[DROIT] == null){
 							return res;
 						}
-						else{
-							/* appel de la fonction qui fait la collision entre les deux fils */
+						else{							
+							return filsGaucheDroit(fils[GAUCHE],fils[DROIT]);
 						}
 					}
 				}
@@ -405,7 +458,8 @@ public class TriesHybrides implements ITries{
 			else{
 				return this;
 			}
-		}							
+		}
+		return this;							
 	}
 	
 	
