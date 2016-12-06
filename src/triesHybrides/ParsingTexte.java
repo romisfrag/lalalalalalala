@@ -63,6 +63,11 @@ public class ParsingTexte {
 		System.out.println(hTries.profondeurMoyenne());
 		System.out.println("test prefixe");
 		System.out.println(hTries.prefixe("e"));
+		System.out.println("test suppression");
+		/*System.out.println(hTries.comptageMots());
+		hTries.suppression("bonjour");
+		System.out.println(); */
+		
 		return hTries;
 	}
 	

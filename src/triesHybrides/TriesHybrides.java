@@ -282,49 +282,78 @@ public class TriesHybrides implements ITries{
 	
 	
 	
-/*	public void suppression(String element){
+	public void suppression(String element){
 				
 	}
 	
 	public TriesHybrides suppressionRec(String element) {
+		
 		if(element == null){
 			return this;
 		}
+		
+		TriesHybrides res;
+		
 		char premiereLettre = element.charAt(0);
 
 		if(premiereLettre == caractere){
 
 			if(element.length() == 1){
-				// ici on a trouver le mot 
-				if(compteur > 0){					
-					if(fils[MILIEU] == null){
-						fils[DROIT]
+				// ici on a trouver l'élément donc on retourne l'arbre vide
+				if(compteur > 0){
+					// si on était une feuille de l'arbre
+					if(fils[MILIEU] != null ){
+						this.valeur = -1;
 					}
-					// sinon il faut laisser le noeud tel quel 
+					else if(fils[DROIT] != null){
+						if(fils[GAUCHE] != null){
+							
+						}
+						else{
+							return fils[GAUCHE];
+						}
+					}
+					// ici seul le fils gauche peut etre non nul mais au pire on retourne null 
 					else{
-						return this;
+						return fils[GAUCHE];
 					}
-				}
-				
-				return false;
+				}				
+				// si l'élément n'était pas dans l'abre on le retourne tel quel 
+				return this;
 			}
+			// c'est a la remonté qu'il faut tester si on doit supprimer des noeuds supplémentaires 
+			// donc on stock tous les appels recursifs dans rec et on test à la fin
 			if(fils[MILIEU] != null){				
-				return fils[MILIEU].suppressionRec(element.substring(1));
+				res =  fils[MILIEU].suppressionRec(element.substring(1));
 			}
 		}
 		else if(premiereLettre < caractere){
 			if(fils[GAUCHE] != null){				
-				return fils[GAUCHE].recherche(element);
+				res =  fils[GAUCHE].suppressionRec(element);
 			}			
 		}
 		else{
 			if(fils[DROIT] != null){				
-				return fils[DROIT].recherche(element);
+				res = fils[DROIT].suppressionRec(element);
 			}						
 		}
-		return this;
+		
+		if(res == null){
+			if(valeur != -1){
+				return this;
+			}
+			if(fils[DROIT] != null){
+				if(fils[GAUCHE] != null){
+					
+				}
+			}
+			if(fils[])
+		}
+		
+			
+			
 	}
-	*/
+	
 	
 	public PatriciaTries hybrideToPatricia(){
 		
@@ -444,20 +473,7 @@ public class TriesHybrides implements ITries{
 				
 		}
 		return;		
-	}
-
-	@Override
-	public void suppression(String element) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	
-	
-	
-	
-	
+	}	
 	
 
 }

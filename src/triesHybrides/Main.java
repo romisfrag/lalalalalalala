@@ -10,11 +10,11 @@ public class Main {
 		ParsingTexte t = new ParsingTexte("test/test.txt");
 		TriesHybrides tHyb = t.fullfillTries();
 		
-		System.out.println("testing hybirdes to patricia");		
+		/*System.out.println("testing hybirdes to patricia");		
 		PatriciaTries resPat = tHyb.hybrideToPatricia(); 
 		System.out.println("start printing");
 		resPat.prettyPrint();
-		System.out.println("end");
+		System.out.println("end"); */
 		
 		return;
 	}
