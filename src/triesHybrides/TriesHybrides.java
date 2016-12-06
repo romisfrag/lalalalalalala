@@ -397,7 +397,15 @@ public class TriesHybrides implements ITries{
 			}			
 			newPrefixe = courrant.getPrefixe(indice) + this.caractere;			
 			courrant.setPrefixe(indice, newPrefixe);				
-			if(fils[MILIEU] != null){				
+			if(fils[MILIEU] != null){	
+				if(this.valeur != -1){
+					PatriciaTries tempTries = new PatriciaTries();
+					newTries = this.fils[MILIEU].hybrideToPatriciaRec(tempTries,-1);
+					String neutralElement = "" + (char)0;
+					newTries.setPrefixe(0,neutralElement);
+					courrant.setFils(indice, newTries);
+					return courrant;
+				}
 				return this.fils[MILIEU].hybrideToPatriciaRec(courrant, indice);
 			}			
 			else{
