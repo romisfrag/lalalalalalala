@@ -12,6 +12,7 @@ public class Main {
 		
 		System.out.println("testing hybirdes to patricia");		
 		PatriciaTries resPat = tHyb.hybrideToPatricia(); 
+		System.out.println("start printing");
 		resPat.prettyPrint();
 		System.out.println("end");
 		

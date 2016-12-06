@@ -330,54 +330,89 @@ public class TriesHybrides implements ITries{
 		
 		/* TODO : faire le premier cas de base ou il n'y a que le fils du milieu dans le fils passer en argument Pour l'arbre a un element */
 		
+		if(fils[GAUCHE] == null && fils[DROIT] == null){
+			PatriciaTries newArbre = new PatriciaTries();
+			return hybrideToPatriciaRec(newArbre,-1);
+		}
+		
 		return hybrideToPatriciaRec(null,-1);
 	}
 	
 	public PatriciaTries hybrideToPatriciaRec(PatriciaTries courrant,int indice){
 		
 		PatriciaTries newTries;
-				
+		
 		
 		/* cela signifie qu'il faut crée un nouveau Patricia Tries */
-		if(fils[GAUCHE] != null || fils[DROIT] != null){
+		if(fils[GAUCHE] != null || fils[DROIT] != null){						
+			newTries = new PatriciaTries();
 			PatriciaTries resGauche;
 			PatriciaTries resDroit;
-			
-			newTries = new PatriciaTries();
 			/* TODO: a changer ces if moches */
 			if(this.fils[GAUCHE] != null){
+				System.out.println("entre dans gauche");
 				resGauche = this.fils[GAUCHE].hybrideToPatriciaRec(newTries,-1);
+				resGauche.prettyPrint();
+				System.out.println("end");
 				if(this.fils[DROIT] != null){
-					resDroit = this.fils[DROIT].hybrideToPatriciaRec(resGauche, -1);				
-				}								
+					System.out.println("entre dans droite");
+					resDroit = this.fils[DROIT].hybrideToPatriciaRec(resGauche, -1);
+					resDroit.prettyPrint();
+					System.out.println("second end");
+				}	
+				else{
+					resDroit = resGauche;
+				}
 			}
 			else{
 				if(this.fils[DROIT] != null){
 					resDroit = this.fils[DROIT].hybrideToPatriciaRec(newTries, -1);
 				}				
-				else{
+				else{ 
 					resDroit = newTries;
 				}
-			}									
-			/* on rappel la fonction avec les fils droits et gauches a null  pour ne pas avoir besoin de réecrire du code*/ 
-			fils[GAUCHE] = null;
-			fils[DROIT] = null;
-			return this.hybrideToPatriciaRec(resDroit,-1);
+			}
+			/* on rappel la fonction avec les fils droits et gauches a null  pour ne pas avoir besoin de réecrire du code*/			
+			if(indice == -1){
+				fils[GAUCHE] = null;
+				fils[DROIT] = null;
+				//courrant.setFils(indice,resDroit);
+				return this.hybrideToPatriciaRec(resDroit,-1);
+			}
+			else{
+				fils[GAUCHE] = null;
+				fils[DROIT] = null;
+				PatriciaTries milieu = this.hybrideToPatriciaRec(resDroit,-1);
+				courrant.setFils(indice,milieu);
+				return courrant;
+			}														
 		}		
 		/*Si aucun des fils droits et gauches ne sont remplis */
-		else if (fils[MILIEU] != null){
-			/* si l'indice pas initialiser alors il faut considerer comme indice la lettre en cours */ 
+		else{			
+			/* si l'indice pas initialiser alors il faut considerer comme indice la lettre en cours */
+			String newPrefixe;
 			if(indice == -1){
 				indice = (int)this.caractere;
+				courrant.setPrefixe(indice,"");
 			}			
-			String newPrefixe = courrant.getPrefixe(indice) + this.caractere;
-			courrant.setPrefixe(indice, newPrefixe);	
-			return this.fils[MILIEU].hybrideToPatriciaRec(courrant, indice);
-		}
-		/* Cas de base, tout le monde est vide */
-		else{
-			return courrant;
-		}
+			newPrefixe = courrant.getPrefixe(indice) + this.caractere;			
+			courrant.setPrefixe(indice, newPrefixe);				
+			if(fils[MILIEU] != null){				
+				return this.fils[MILIEU].hybrideToPatriciaRec(courrant, indice);
+			}			
+			else{
+				/* test normallement inutile mais bon */
+				if(this.valeur != -1){
+					newPrefixe = courrant.getPrefixe(indice) + (char)0;			
+					courrant.setPrefixe(indice,newPrefixe);
+					return courrant;
+				}
+				else{
+					System.out.println("ERRORORORORORORO");
+					return null;
+				}
+			}
+		}		
 	}
 	
 	public void prettyPrint(){		
