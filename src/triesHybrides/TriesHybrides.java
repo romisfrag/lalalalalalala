@@ -601,7 +601,7 @@ public class TriesHybrides implements ITries{
 	
 	/* ici on fait une hauteur ne considérant que le max de fils gauches ou droits */	
 	public int hauteurEquilibrage(){
-		return hauteurEquilibrageRec(0);
+		return hauteurEquilibrageRec(1);
 	}
 	public int hauteurEquilibrageRec(int h){
 		
@@ -611,7 +611,7 @@ public class TriesHybrides implements ITries{
 			 newHauteur = fils[GAUCHE].hauteurEquilibrageRec(1);			 			 
 		}
 		if(fils[DROIT] != null){
-			newHauteur = Math.max(newHauteur,fils[DROIT].hauteurEquilibrage());			
+			newHauteur = Math.max(newHauteur,fils[DROIT].hauteurEquilibrageRec(1));			
 		}		
 		
 		return newHauteur + h;
@@ -624,6 +624,7 @@ public class TriesHybrides implements ITries{
 		int hauteurGauche = 0;
 		int hauteurDroite = 0;
 		
+		
 		/* test préliminaires */
 		if(this.fils[GAUCHE] != null){
 			hauteurGauche = this.fils[GAUCHE].hauteurEquilibrage();
@@ -632,57 +633,63 @@ public class TriesHybrides implements ITries{
 			hauteurDroite = this.fils[DROIT].hauteurEquilibrage();
 		}
 		
+		//System.out.println("droite" + hauteurDroite + "Gauche" + hauteurGauche);
+		
 		if((hauteurGauche - hauteurDroite) == 2){
-			int hauteurGaucheBis = 0;
-			int hauteurDroiteBis = 0;
+			int hauteurGaucheFils = 0;
+			int hauteurDroiteFils = 0;
 			if(this.fils[GAUCHE].fils[DROIT] != null){
-				hauteurDroiteBis = this.fils[GAUCHE].fils[DROIT].hauteurEquilibrage();
+				hauteurDroiteFils = this.fils[GAUCHE].fils[DROIT].hauteurEquilibrage();
 			}
 			if(this.fils[GAUCHE].fils[GAUCHE] != null){
-				hauteurGaucheBis = this.fils[GAUCHE].fils[GAUCHE].hauteurEquilibrage();
+				hauteurGaucheFils = this.fils[GAUCHE].fils[GAUCHE].hauteurEquilibrage();
 			}
 			
-			if(hauteurGaucheBis < hauteurDroiteBis){
+			if(hauteurGaucheFils < hauteurDroiteFils){
 				temp = this.fils[GAUCHE].rotationGauche();
 			}
 			else{
 				temp = fils[GAUCHE];
+				fils[GAUCHE] = null;
 			}
 			this.fils[GAUCHE] = temp;
-			res = this.rotationDroite();						
+			return this.rotationDroite();						
 		}		
 		else if((hauteurDroite - hauteurGauche) == 2){
-			int hauteurGaucheBis = 0;
-			int hauteurDroiteBis = 0;
+			System.out.println("on rentre la");
+			int hauteurGaucheFils = 0;
+			int hauteurDroiteFils = 0;
 			if(this.fils[DROIT].fils[DROIT] != null){
-				hauteurDroiteBis = this.fils[DROIT].fils[DROIT].hauteurEquilibrage();
+				hauteurDroiteFils = this.fils[DROIT].fils[DROIT].hauteurEquilibrage();
 			}
-			if(this.fils[GAUCHE].fils[GAUCHE] != null){
-				hauteurGaucheBis = this.fils[DROIT].fils[GAUCHE].hauteurEquilibrage();
+			if(this.fils[DROIT].fils[GAUCHE] != null){
+				hauteurGaucheFils = this.fils[DROIT].fils[GAUCHE].hauteurEquilibrage();
 			}
 			
-			if(hauteurDroiteBis < hauteurGaucheBis){
+			if(hauteurDroiteFils < hauteurGaucheFils){
 				temp = this.fils[DROIT].rotationDroite();
 			}
 			else{
 				temp = fils[DROIT];
+				fils[DROIT] = null;
 			}
+			System.out.println("print de l'équilibre");
 			this.fils[DROIT] = temp;
-			res = this.rotationGauche();						
+			this.prettyPrint();
+			System.out.println("end print de l'quilibre");			
+			return this.rotationGauche();						
 		}		
 		/* les deux sous arbres ont la meme hauteur donc pas besoin de reequilibrer */
 		else{
 			return this;
-		}
-		
-		return res;
+		}				
 	}
-	
-	/* TODO rajouter au bon moment l'équilibrage */
-	public void insertionEquilibrage(String element) {
+		
+	public TriesHybrides insertionEquilibrage(String element) {
 		
 		if(element == null || element == ""){
-			return;
+			System.out.println("xd");
+			return this;
 		}
 		char premiereLettre = element.charAt(0);
 		
@@ -692,10 +699,14 @@ public class TriesHybrides implements ITries{
 			
 			if(element.length() == 1){				
 				valeur = compteur++;
+				System.out.println("xd");
+				return this;
 			}
 			else{
 				fils[MILIEU] = new TriesHybrides();
-				fils[MILIEU].insertion(element.substring(1));				
+				fils[MILIEU] = fils[MILIEU].insertionEquilibrage(element.substring(1));
+				System.out.println("xd");
+				return this;
 			}			
 		}
 		
@@ -703,16 +714,22 @@ public class TriesHybrides implements ITries{
 		
 		else if(premiereLettre == caractere){			
 			if(element.length() == 1 && valeur == -1){				
-				valeur = compteur++;				
+				valeur = compteur++;
+				System.out.println("xd");
+				return this;
 			}
+			/* il existe deja */
 			else if(element.length() == 1){
-				return;
+				System.out.println("xd");
+				return this;
 			}
 			else{
 				if(fils[MILIEU] == null){
 					fils[MILIEU] = new TriesHybrides();
 				}				
-				fils[MILIEU].insertion(element.substring(1));	
+				fils[MILIEU] = fils[MILIEU].insertionEquilibrage(element.substring(1));
+				System.out.println("xd");
+				return this;
 			}
 			
 		}
@@ -721,17 +738,25 @@ public class TriesHybrides implements ITries{
 			if(fils[GAUCHE] == null){
 				fils[GAUCHE] = new TriesHybrides();
 			}
-			fils[GAUCHE].insertion(element);
-			this.equilibreArbre();
+			fils[GAUCHE] = fils[GAUCHE].insertionEquilibrage(element);
+			System.out.println("xd");
+			return this.equilibreArbre();
 		}
 		else{
 			if(fils[DROIT] == null){
 				fils[DROIT] = new TriesHybrides();
 			}
-			fils[DROIT].insertion(element);
-			this.equilibreArbre();
-		}
-		return;
+			fils[DROIT] = fils[DROIT].insertionEquilibrage(element);
+			System.out.println("start in right");
+			this.prettyPrint();
+			System.out.println("end inn right");
+			TriesHybrides lol = this.equilibreArbre();
+			System.out.println("lol");
+			lol.prettyPrint();
+			System.out.println("lol");
+			System.out.println("dernier appel");
+			return lol;
+		}				
 	}
 	
 	public void prettyPrint(){		
