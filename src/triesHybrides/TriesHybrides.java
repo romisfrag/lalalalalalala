@@ -746,10 +746,10 @@ public class TriesHybrides implements ITries{
 			if(fils[MILIEU] != null){
 				fils[MILIEU].prettyPrint();
 			}
-			if(fils[GAUCHE] != null){
+			if(fils[GAUCHE] != null){				
 				fils[GAUCHE].prettyPrint();
 			}
-			if(fils[DROIT] != null){
+			if(fils[DROIT] != null){				
 				fils[DROIT].prettyPrint();
 			}
 				

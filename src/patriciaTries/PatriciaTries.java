@@ -101,9 +101,11 @@ public class PatriciaTries implements ITries{
 			
 			//newSon.putElemPrefixe(indexSuiteElement, suiteElement);
 			newSon.prefixes[indexSuiteElement] = suiteElement;
-			
+			System.out.println("on passe la");
+			newSon.prettyPrint();
 			//newSon.putTrieFils(indexSuitePrefixe,this.fils[indexSuitePrefixe]);
-			newSon.fils[indexSuitePrefixe] = this.fils[indexSuitePrefixe];
+			newSon.fils[indexSuitePrefixe] = this.fils[prefixeCommun.charAt(0)];
+			newSon.prettyPrint();
 			/* et maintenant on met le nouveau fils  */
 			this.prefixes[index] = prefixeCommun;
 			this.fils[index] = newSon;
@@ -434,11 +436,9 @@ public class PatriciaTries implements ITries{
 		if(element == null){
 			return son;
 		}		
-		else if(element.length() == 2){
-			TriesHybrides node = new TriesHybrides();
-			if(element.charAt(1) == 0){
-				node.valeur = node.getAndIncrementCompteur();
-			}			
+		else if(element.length() == 2 && element.charAt(1) == 0){
+			TriesHybrides node = new TriesHybrides();		
+			node.valeur = node.getAndIncrementCompteur();					
 			node.caractere = element.charAt(0);
 			node.fils[1] = son;
 			return node;
@@ -488,9 +488,7 @@ public class PatriciaTries implements ITries{
 		
 		
 		
-		int milieu = ((noeudsActifs.size() - 1) / 2) + 1;		
-		System.out.println("milieu " + milieu);		
-		System.out.println("size " + noeudsActifs.size());
+		int milieu = ((noeudsActifs.size() - 1) / 2) + 1;						
 		int indice;
 		TriesHybrides filsTemp = null;	
 		/* premiere boucle pour construire la partie droite */
@@ -500,12 +498,10 @@ public class PatriciaTries implements ITries{
 			TriesHybrides temp = null;
 			TriesHybrides res = null;
 			
-			indice = noeudsActifs.get(i);
-			System.out.println(prefixes[indice]);
+			indice = noeudsActifs.get(i);			
 			/* on commence par l'appel recursif sur le fils du noeud a traiter */
 			if(fils[indice] != null){
-				res = fils[indice].patriciaToHybride();
-				System.out.println("pritn son");
+				res = fils[indice].patriciaToHybride();				
 				res.prettyPrint();
 			}
 					
@@ -513,10 +509,9 @@ public class PatriciaTries implements ITries{
 			int tailleMot = prefixes[indice].length() - 1;
 			
 			String mot = prefixes[indice];
-			System.out.println(mot);
+			//System.out.println(mot);
 			/* si le mot se termine à l'aide du fils */
-			if(tailleMot > 1 && mot.charAt(tailleMot - 1) != 0){
-				System.out.println("nb carat ok");
+			if(tailleMot > 1 && mot.charAt(tailleMot - 1) != 0){				
 				if(fils[indice] != null){
 					if(fils[indice].prefixes[0] != null){
 						mot = mot + (char)0;
@@ -531,14 +526,13 @@ public class PatriciaTries implements ITries{
 			//filsTemp = temp;			
 		}
 		/* a supprimer c'est pour le test */
-		if(filsTemp != null){
+		/*if(filsTemp != null){
 			filsTemp.prettyPrint();
 		}
 		else{
 			System.out.println("null");
-		}
-		
-		System.out.println("on y arrive?");
+		}*/
+				
 		/* on stock le fils du milieu */
 		TriesHybrides ret = filsTemp;
 		filsTemp = null;
@@ -552,8 +546,8 @@ public class PatriciaTries implements ITries{
 			indice = noeudsActifs.get(i);
 			if(fils[indice] != null){
 				res = fils[indice].patriciaToHybride();
-				System.out.println("on affiche le fils");
-				res.prettyPrint();				
+				/*System.out.println("on affiche le fils");
+				res.prettyPrint(); */				
 			}
 			
 			/* pour verifier si le mot se termine dans la case */
@@ -561,7 +555,7 @@ public class PatriciaTries implements ITries{
 			int tailleMot = prefixes[indice].length() - 1;			
 			
 			String mot = prefixes[indice];
-			System.out.println(mot);
+			//System.out.println(mot);
 			/* si le mot se termine à l'aide du fils si la taille du mot est de 1 alors c'est sur qu'il a des fils (hehe)*/
 			if(tailleMot > 1 && mot.charAt(tailleMot - 1) != 0){
 				if(fils[indice] != null){
@@ -575,7 +569,10 @@ public class PatriciaTries implements ITries{
 			//temp.fils[0] = filsTemp;			
 			//changeRef(filsTemp,temp);
 			//filsTemp = temp;		
-			temp = createNode(mot,res);			
+			temp = createNode(mot,res);	
+			System.out.println("print create node");
+			temp.prettyPrint();
+			System.out.println("end print create node");
 			temp.fils[0] = filsTemp;			
 			filsTemp = temp;					
 			temp = null;
@@ -586,10 +583,10 @@ public class PatriciaTries implements ITries{
 		}
 		if(filsTemp != null){
 			System.out.println("deuxieme fois");
-			//ret.prettyPrint();
+			ret.prettyPrint();
 			ret.fils[0] = filsTemp;
 			System.out.println("troisieme");
-			//ret.prettyPrint();
+			ret.prettyPrint();
 		}
 		/*else{
 			ret = filsTemp;
