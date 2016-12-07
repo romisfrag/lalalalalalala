@@ -282,10 +282,6 @@ public class TriesHybrides implements ITries{
 	
 	
 	
-	public void suppression(String element){
-				
-	}
-	
 	/* cette fonction va crée un nouvel arbre dont la racine sera celle du fils gauche et 
 	 * on met le fils droit comme fils de coté de la racine
 	 */
@@ -324,9 +320,19 @@ public class TriesHybrides implements ITries{
 		}		
 	}
 	
+	public TriesHybrides suppression(String element){
+		TriesHybrides res = suppressionRec(element);
+		System.out.println("avant");
+		if(res == null){
+			System.out.println("on est la");
+			res = new TriesHybrides();
+		}
+		return res;		
+	}
+	
 	
 	public TriesHybrides suppressionRec(String element) {
-		
+		System.out.println("nb appels " + element);		
 		if(element == null){
 			return this;
 		}
@@ -369,7 +375,7 @@ public class TriesHybrides implements ITries{
 			
 			// c'est a la remonté qu'il faut tester si on doit supprimer des noeuds supplémentaires 
 			// donc on stock tous les appels recursifs dans rec et on test à la fin
-			if(fils[MILIEU] != null){
+			else if(fils[MILIEU] != null){
 				System.out.println("ici 3 fois lol");
 				res =  fils[MILIEU].suppressionRec(element.substring(1));
 				System.out.println(res);
@@ -388,7 +394,9 @@ public class TriesHybrides implements ITries{
 					}
 					else{
 						if(fils[DROIT] != null){
-							fils[MILIEU] = fils[DROIT];
+							System.out.println("on est d'accord");
+							return fils[DROIT];
+							
 						}	
 						/* aucun des trois fils n'existe et pas de valeur donc return null*/
 						else{
@@ -399,11 +407,15 @@ public class TriesHybrides implements ITries{
 				}
 				else{					
 					fils[MILIEU] = res;
+					return this;
 				}
 			}
 			
-			/* ici on sait que le mot n'est pas dans l'arbre */
-			return this;
+			else{
+				/* ici on sait que le mot n'est pas dans l'arbre */
+				System.out.println("no!!!!");
+				return this;
+			}
 		}
 		/* maintenant si l'appel venait de la gauche */
 		else if(premiereLettre < caractere){
@@ -433,12 +445,14 @@ public class TriesHybrides implements ITries{
 			}
 		}
 		else{
-			if(fils[DROIT] != null){				
+			if(fils[DROIT] != null){		
+				System.out.println("la on rentre2");
 				res = fils[DROIT].suppressionRec(element);
 				if(fils[MILIEU] == null && valeur == -1){
+					System.out.println("on rentre jamais");
 					if(fils[GAUCHE] != null){
 						if(res != null){
-							/* appel de la fonction qui fait la collisiion entre les deux fils */
+							return filsGaucheDroit(fils[GAUCHE],fils[DROIT]);
 						}
 						else{
 							return fils[GAUCHE];
@@ -452,6 +466,11 @@ public class TriesHybrides implements ITries{
 							return null;
 						}
 					}
+				}
+				else{
+					System.out.println("la on rentre");
+					fils[DROIT] = res;
+					return this;
 				}
 			}	
 			/* cas ou le mot n'est pas présent dans l'arbre */
@@ -703,12 +722,14 @@ public class TriesHybrides implements ITries{
 				fils[GAUCHE] = new TriesHybrides();
 			}
 			fils[GAUCHE].insertion(element);
+			this.equilibreArbre();
 		}
 		else{
 			if(fils[DROIT] == null){
 				fils[DROIT] = new TriesHybrides();
 			}
 			fils[DROIT].insertion(element);
+			this.equilibreArbre();
 		}
 		return;
 	}

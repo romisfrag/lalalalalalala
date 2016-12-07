@@ -24,9 +24,9 @@ public class Main {
 		
 		System.out.println("arbre before");
 		tHyb.prettyPrint();
-		tHyb.suppressionRec("bonjour");
+		TriesHybrides res = tHyb.suppression("bonjour");
 		System.out.println("arbre after");
-		tHyb.prettyPrint();
+		res.prettyPrint();
 		
 		/*System.out.println("testing hybirdes to patricia");		
 		PatriciaTries resPat = tHyb.hybrideToPatricia(); 
