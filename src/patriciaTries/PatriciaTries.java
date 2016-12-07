@@ -443,6 +443,12 @@ public class PatriciaTries implements ITries{
 			node.fils[1] = son;
 			return node;
 		}
+		else if(element.length() == 1){
+			TriesHybrides node = new TriesHybrides();					
+			node.caractere = element.charAt(0);
+			node.fils[1] = son;
+			return node;
+		}
 		else{
 			TriesHybrides node = new TriesHybrides();					
 			node.caractere = element.charAt(0);			
@@ -452,10 +458,18 @@ public class PatriciaTries implements ITries{
 		}								
 	}
 	
+	public TriesHybrides changeRefofA(TriesHybrides a){
+		TriesHybrides b = a;
+		return b;
+	}
 	public void changeRef(TriesHybrides a,TriesHybrides b){
 		TriesHybrides temp = a;
+		System.out.println(temp);
+		System.out.println(b);
 		a = b;
+		System.out.println(temp);
 		b = temp;
+		System.out.println(temp);
 	}
 	
 	/* a voir */
@@ -474,14 +488,14 @@ public class PatriciaTries implements ITries{
 		
 		
 		
-		int milieu = ((noeudsActifs.size() - 1) / 2) + 1;
-		System.out.println(milieu);		
+		int milieu = ((noeudsActifs.size() - 1) / 2) + 1;		
+		System.out.println("milieu " + milieu);		
+		System.out.println("size " + noeudsActifs.size());
 		int indice;
 		TriesHybrides filsTemp = null;	
-		
 		/* premiere boucle pour construire la partie droite */
 		for(int i = noeudsActifs.size() - 1; i >= milieu; i--){
-			
+			System.out.println("enter droite");
 			/* on déclare ici car variable locale et donc ça va nous aider */					
 			TriesHybrides temp = null;
 			TriesHybrides res = null;
@@ -491,46 +505,65 @@ public class PatriciaTries implements ITries{
 			/* on commence par l'appel recursif sur le fils du noeud a traiter */
 			if(fils[indice] != null){
 				res = fils[indice].patriciaToHybride();
+				System.out.println("pritn son");
+				res.prettyPrint();
 			}
 					
 			/* pour verifier si le mot se termine dans la case */
 			int tailleMot = prefixes[indice].length() - 1;
-			String mot = prefixes[indice];
 			
+			String mot = prefixes[indice];
+			System.out.println(mot);
 			/* si le mot se termine à l'aide du fils */
-			if(mot.charAt(tailleMot - 1) != 0){
+			if(tailleMot > 1 && mot.charAt(tailleMot - 1) != 0){
+				System.out.println("nb carat ok");
 				if(fils[indice] != null){
 					if(fils[indice].prefixes[0] != null){
 						mot = mot + (char)0;
 					}
-				}
+				}				
 			}								
-			temp = createNode(mot,res);
-			temp.fils[0] = filsTemp;
-			changeRef(filsTemp,temp);
+			temp = createNode(mot,res);			
+			temp.fils[2] = filsTemp;			
+			filsTemp = temp;			
+			temp = null;
+			res = null;					
 			//filsTemp = temp;			
 		}
+		/* a supprimer c'est pour le test */
+		if(filsTemp != null){
+			filsTemp.prettyPrint();
+		}
+		else{
+			System.out.println("null");
+		}
 		
-		
+		System.out.println("on y arrive?");
 		/* on stock le fils du milieu */
 		TriesHybrides ret = filsTemp;
-		
+		filsTemp = null;
 		/* traitement fils gauche */
 		for(int i = 0; i < milieu; i++){
+			
+			System.out.println("ca rentre a gauche");
 			TriesHybrides temp = null;
 			TriesHybrides res = null;
 			
 			indice = noeudsActifs.get(i);
 			if(fils[indice] != null){
 				res = fils[indice].patriciaToHybride();
+				System.out.println("on affiche le fils");
+				res.prettyPrint();				
 			}
 			
 			/* pour verifier si le mot se termine dans la case */
-			int tailleMot = prefixes[indice].length() - 1;
-			String mot = prefixes[indice];
 			
-			/* si le mot se termine à l'aide du fils */
-			if(mot.charAt(tailleMot - 1) != 0){
+			int tailleMot = prefixes[indice].length() - 1;			
+			
+			String mot = prefixes[indice];
+			System.out.println(mot);
+			/* si le mot se termine à l'aide du fils si la taille du mot est de 1 alors c'est sur qu'il a des fils (hehe)*/
+			if(tailleMot > 1 && mot.charAt(tailleMot - 1) != 0){
 				if(fils[indice] != null){
 					if(fils[indice].prefixes[0] != null){
 						mot = mot + (char)0;
@@ -538,17 +571,29 @@ public class PatriciaTries implements ITries{
 				}
 			}
 			
-			temp = createNode(mot,res);
+			//temp = createNode(mot,res);
+			//temp.fils[0] = filsTemp;			
+			//changeRef(filsTemp,temp);
+			//filsTemp = temp;		
+			temp = createNode(mot,res);			
 			temp.fils[0] = filsTemp;			
-			changeRef(filsTemp,temp);
-			//filsTemp = temp;				
+			filsTemp = temp;					
+			temp = null;
+			res = null;
+		}
+		if(ret == null){
+			return filsTemp;
 		}
 		if(filsTemp != null){
-			filsTemp.fils[0] = filsTemp;			
+			System.out.println("deuxieme fois");
+			//ret.prettyPrint();
+			ret.fils[0] = filsTemp;
+			System.out.println("troisieme");
+			//ret.prettyPrint();
 		}
-		else{
+		/*else{
 			ret = filsTemp;
-		}
+		} */
 		System.out.println("ending");
 		return ret;					
 	}
