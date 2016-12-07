@@ -101,11 +101,8 @@ public class PatriciaTries implements ITries{
 			
 			//newSon.putElemPrefixe(indexSuiteElement, suiteElement);
 			newSon.prefixes[indexSuiteElement] = suiteElement;
-			System.out.println("on passe la");
-			newSon.prettyPrint();
 			//newSon.putTrieFils(indexSuitePrefixe,this.fils[indexSuitePrefixe]);
 			newSon.fils[indexSuitePrefixe] = this.fils[prefixeCommun.charAt(0)];
-			newSon.prettyPrint();
 			/* et maintenant on met le nouveau fils  */
 			this.prefixes[index] = prefixeCommun;
 			this.fils[index] = newSon;

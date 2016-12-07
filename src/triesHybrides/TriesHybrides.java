@@ -18,6 +18,8 @@ public class TriesHybrides implements ITries{
 
 	private static int compteur = 0;
 	
+	public static int doublons = 0;
+	
 	
 	public TriesHybrides(){
 		this.caractere = (char)0;
@@ -58,6 +60,7 @@ public class TriesHybrides implements ITries{
 				valeur = compteur++;				
 			}
 			else if(element.length() == 1){
+				doublons++;
 				return;
 			}
 			else{
