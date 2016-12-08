@@ -391,7 +391,7 @@ public class PatriciaTries implements ITries{
 				 
 				 /* pour ne pas faire un appel inutile et initialiser un fils pour rien */				 
 				 if(this.prefixes[i].charAt(this.prefixes[i].length()-1) != 0){
-					 System.out.println("print lol");
+					 
 					 newFils = new PatriciaTries();					 
 					 this.fils[i].fusionRec(second.fils[i],newFils);
 					 resultat.fils[i] = newFils;
@@ -455,19 +455,6 @@ public class PatriciaTries implements ITries{
 		}								
 	}
 	
-	public TriesHybrides changeRefofA(TriesHybrides a){
-		TriesHybrides b = a;
-		return b;
-	}
-	public void changeRef(TriesHybrides a,TriesHybrides b){
-		TriesHybrides temp = a;
-		System.out.println(temp);
-		System.out.println(b);
-		a = b;
-		System.out.println(temp);
-		b = temp;
-		System.out.println(temp);
-	}
 	
 	/* a voir */
 	@SuppressWarnings("null")
@@ -490,7 +477,7 @@ public class PatriciaTries implements ITries{
 		TriesHybrides filsTemp = null;	
 		/* premiere boucle pour construire la partie droite */
 		for(int i = noeudsActifs.size() - 1; i >= milieu; i--){
-			System.out.println("enter droite");
+			
 			/* on déclare ici car variable locale et donc ça va nous aider */					
 			TriesHybrides temp = null;
 			TriesHybrides res = null;
@@ -499,7 +486,7 @@ public class PatriciaTries implements ITries{
 			/* on commence par l'appel recursif sur le fils du noeud a traiter */
 			if(fils[indice] != null){
 				res = fils[indice].patriciaToHybride();				
-				res.prettyPrint();
+				
 			}
 					
 			/* pour verifier si le mot se termine dans la case */
@@ -536,7 +523,7 @@ public class PatriciaTries implements ITries{
 		/* traitement fils gauche */
 		for(int i = 0; i < milieu; i++){
 			
-			System.out.println("ca rentre a gauche");
+			
 			TriesHybrides temp = null;
 			TriesHybrides res = null;
 			
@@ -567,9 +554,9 @@ public class PatriciaTries implements ITries{
 			//changeRef(filsTemp,temp);
 			//filsTemp = temp;		
 			temp = createNode(mot,res);	
-			System.out.println("print create node");
-			temp.prettyPrint();
-			System.out.println("end print create node");
+			
+			
+			
 			temp.fils[0] = filsTemp;			
 			filsTemp = temp;					
 			temp = null;
@@ -579,16 +566,16 @@ public class PatriciaTries implements ITries{
 			return filsTemp;
 		}
 		if(filsTemp != null){
-			System.out.println("deuxieme fois");
-			ret.prettyPrint();
+			
+			
 			ret.fils[0] = filsTemp;
-			System.out.println("troisieme");
-			ret.prettyPrint();
+			
+			
 		}
 		/*else{
 			ret = filsTemp;
 		} */
-		System.out.println("ending");
+		
 		return ret;					
 	}
 	

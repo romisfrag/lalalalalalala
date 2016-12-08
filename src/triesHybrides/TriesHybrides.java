@@ -11,12 +11,12 @@ public class TriesHybrides implements ITries{
 	public int valeur;
 	public TriesHybrides[] fils;
 	
+	private static int compteur = 0;
+	
 	/* macros */
 	public static final int GAUCHE = 0;
 	public static final int MILIEU = 1;
-	public static final int DROIT = 2;
-
-	private static int compteur = 0;
+	public static final int DROIT = 2;	
 	
 	public static int doublons = 0;
 	
@@ -289,7 +289,7 @@ public class TriesHybrides implements ITries{
 	 * on met le fils droit comme fils de coté de la racine
 	 */
 	public TriesHybrides filsGaucheDroit(TriesHybrides gauche,TriesHybrides droit){
-		System.out.println("appel");
+		
 		if(gauche == null){
 			return droit;
 		}
@@ -325,9 +325,9 @@ public class TriesHybrides implements ITries{
 	
 	public TriesHybrides suppression(String element){
 		TriesHybrides res = suppressionRec(element);
-		System.out.println("avant");
+		
 		if(res == null){
-			System.out.println("on est la");
+			
 			res = new TriesHybrides();
 		}
 		return res;		
@@ -335,7 +335,7 @@ public class TriesHybrides implements ITries{
 	
 	
 	public TriesHybrides suppressionRec(String element) {
-		System.out.println("nb appels " + element);		
+		
 		if(element == null){
 			return this;
 		}
@@ -367,7 +367,7 @@ public class TriesHybrides implements ITries{
 							return fils[GAUCHE];
 						}
 						else{
-							System.out.println("ca se passe ici hein");
+							
 							return null;
 						}
 					}
@@ -379,13 +379,13 @@ public class TriesHybrides implements ITries{
 			// c'est a la remonté qu'il faut tester si on doit supprimer des noeuds supplémentaires 
 			// donc on stock tous les appels recursifs dans rec et on test à la fin
 			else if(fils[MILIEU] != null){
-				System.out.println("ici 3 fois lol");
+				
 				res =  fils[MILIEU].suppressionRec(element.substring(1));
-				System.out.println(res);
-				System.out.println(valeur);
+				
+				
 				/* a la remonté il faut modifier uniquement si le resultat est null est si on est pas sur un mot */
 				if(res == null && valeur == -1){
-					System.out.println("hello world");
+					
 					if(fils[GAUCHE] != null){						
 						/* si les deux fils ne sont pas vides */
 						if(fils[DROIT] != null){							
@@ -397,13 +397,13 @@ public class TriesHybrides implements ITries{
 					}
 					else{
 						if(fils[DROIT] != null){
-							System.out.println("on est d'accord");
+							
 							return fils[DROIT];
 							
 						}	
 						/* aucun des trois fils n'existe et pas de valeur donc return null*/
 						else{
-							System.out.println("why not");
+							
 							return null;
 						}
 					}
@@ -416,13 +416,13 @@ public class TriesHybrides implements ITries{
 			
 			else{
 				/* ici on sait que le mot n'est pas dans l'arbre */
-				System.out.println("no!!!!");
+				
 				return this;
 			}
 		}
 		/* maintenant si l'appel venait de la gauche */
 		else if(premiereLettre < caractere){
-			System.out.println("j'aime quand c'est la");
+			
 			if(fils[GAUCHE] != null){				
 				res =  fils[GAUCHE].suppressionRec(element);
 				if(fils[MILIEU] == null && valeur == -1){
@@ -449,10 +449,10 @@ public class TriesHybrides implements ITries{
 		}
 		else{
 			if(fils[DROIT] != null){		
-				System.out.println("la on rentre2");
+				
 				res = fils[DROIT].suppressionRec(element);
 				if(fils[MILIEU] == null && valeur == -1){
-					System.out.println("on rentre jamais");
+					
 					if(fils[GAUCHE] != null){
 						if(res != null){
 							return filsGaucheDroit(fils[GAUCHE],fils[DROIT]);
@@ -471,7 +471,7 @@ public class TriesHybrides implements ITries{
 					}
 				}
 				else{
-					System.out.println("la on rentre");
+					
 					fils[DROIT] = res;
 					return this;
 				}
@@ -509,15 +509,15 @@ public class TriesHybrides implements ITries{
 			PatriciaTries resDroit;
 			/* TODO: a changer ces if moches */
 			if(this.fils[GAUCHE] != null){
-				System.out.println("entre dans gauche");
+				
 				resGauche = this.fils[GAUCHE].hybrideToPatriciaRec(newTries,-1);
 				resGauche.prettyPrint();
-				System.out.println("end");
+				
 				if(this.fils[DROIT] != null){
-					System.out.println("entre dans droite");
+					
 					resDroit = this.fils[DROIT].hybrideToPatriciaRec(resGauche, -1);
 					resDroit.prettyPrint();
-					System.out.println("second end");
+					
 				}	
 				else{
 					resDroit = resGauche;
@@ -575,7 +575,7 @@ public class TriesHybrides implements ITries{
 					return courrant;
 				}
 				else{
-					System.out.println("ERRORORORORORORO");
+					
 					return null;
 				}
 			}
@@ -659,7 +659,7 @@ public class TriesHybrides implements ITries{
 			return this.rotationDroite();						
 		}		
 		else if((hauteurDroite - hauteurGauche) == 2){
-			System.out.println("on rentre la");
+			
 			int hauteurGaucheFils = 0;
 			int hauteurDroiteFils = 0;
 			if(this.fils[DROIT].fils[DROIT] != null){
@@ -676,10 +676,10 @@ public class TriesHybrides implements ITries{
 				temp = fils[DROIT];
 				fils[DROIT] = null;
 			}
-			System.out.println("print de l'équilibre");
+			
 			this.fils[DROIT] = temp;
-			this.prettyPrint();
-			System.out.println("end print de l'quilibre");			
+			
+			
 			return this.rotationGauche();						
 		}		
 		/* les deux sous arbres ont la meme hauteur donc pas besoin de reequilibrer */
@@ -691,7 +691,7 @@ public class TriesHybrides implements ITries{
 	public TriesHybrides insertionEquilibrage(String element) {
 		
 		if(element == null || element == ""){
-			System.out.println("xd");
+			
 			return this;
 		}
 		char premiereLettre = element.charAt(0);
@@ -702,13 +702,13 @@ public class TriesHybrides implements ITries{
 			
 			if(element.length() == 1){				
 				valeur = compteur++;
-				System.out.println("xd");
+				
 				return this;
 			}
 			else{
 				fils[MILIEU] = new TriesHybrides();
 				fils[MILIEU] = fils[MILIEU].insertionEquilibrage(element.substring(1));
-				System.out.println("xd");
+				
 				return this;
 			}			
 		}
@@ -718,12 +718,12 @@ public class TriesHybrides implements ITries{
 		else if(premiereLettre == caractere){			
 			if(element.length() == 1 && valeur == -1){				
 				valeur = compteur++;
-				System.out.println("xd");
+				
 				return this;
 			}
 			/* il existe deja */
 			else if(element.length() == 1){
-				System.out.println("xd");
+				
 				return this;
 			}
 			else{
@@ -731,7 +731,7 @@ public class TriesHybrides implements ITries{
 					fils[MILIEU] = new TriesHybrides();
 				}				
 				fils[MILIEU] = fils[MILIEU].insertionEquilibrage(element.substring(1));
-				System.out.println("xd");
+				
 				return this;
 			}
 			
@@ -742,7 +742,7 @@ public class TriesHybrides implements ITries{
 				fils[GAUCHE] = new TriesHybrides();
 			}
 			fils[GAUCHE] = fils[GAUCHE].insertionEquilibrage(element);
-			System.out.println("xd");
+			
 			return this.equilibreArbre();
 		}
 		else{
@@ -750,15 +750,11 @@ public class TriesHybrides implements ITries{
 				fils[DROIT] = new TriesHybrides();
 			}
 			fils[DROIT] = fils[DROIT].insertionEquilibrage(element);
-			System.out.println("start in right");
-			this.prettyPrint();
-			System.out.println("end inn right");
-			TriesHybrides lol = this.equilibreArbre();
-			System.out.println("lol");
-			lol.prettyPrint();
-			System.out.println("lol");
-			System.out.println("dernier appel");
-			return lol;
+			
+			
+			
+			return this.equilibreArbre();
+			
 		}				
 	}
 	
