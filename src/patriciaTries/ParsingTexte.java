@@ -66,10 +66,12 @@ public class ParsingTexte {
 		System.out.println(patTries.profondeurMoyenne());
 		System.out.println("test Prefixe");
 		System.out.println(patTries.prefixe("dactylo"));
-		//System.out.println("Test suppression");
-		//test suppression
+		System.out.println("Test suppression");		
+		patTries.suppression("bonjoure");
+		patTries.prettyPrint();
+		
 		//System.out.println(patTries.comptageMots());
-		//patTries.suppression("p");
+		
 		//System.out.println(patTries.comptageMots());
 		//System.out.println("lol");
 		//System.out.println(patTries.comptageMots());

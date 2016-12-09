@@ -23,13 +23,13 @@ public class Main {
 		System.out.println("begining pritint fusion");
 		resultatFusion.prettyPrint(); */
 		
-		System.out.println("start test pat to hyrbride");
+		/*System.out.println("start test pat to hyrbride");
 		TriesHybrides res = patTriesTest.patriciaToHybride();
 		System.out.println("beginin printing res");
 		if(res != null){					
 			res.prettyPrint();
 		}
-		System.out.println("end");
+		System.out.println("end"); */
 		
 		
 		return;

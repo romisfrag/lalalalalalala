@@ -53,7 +53,7 @@ public class Shakespeare {
 			hTries.insertion(listeMots.get(i));
 		}		
 		debut = System.nanoTime() - debut;
-		//System.out.println(hTries.comptageMots() + hTries.doublons);
+		System.out.println("hTrie mots " + hTries.comptageMots());
 		System.out.println("insertion Hybrides Tries " + debut);
 		
 		TriesHybrides hTriesE = new TriesHybrides();
@@ -76,6 +76,7 @@ public class Shakespeare {
 		
 		debut = System.nanoTime() - debut;
 		System.out.println("insertion patricia Tries " + debut);
+		System.out.println("pTrie mots " + pTries.comptageMots());
 		
 		
 		
