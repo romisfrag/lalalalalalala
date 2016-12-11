@@ -3,31 +3,19 @@ package patriciaTries;
 import java.util.ArrayList;
 
 import triesHybrides.TriesHybrides;
-import interfaces.ITries;
 
-public class PatriciaTries implements ITries{
+public class PatriciaTries{
 	
 	private String [] prefixes;	
 	private PatriciaTries[] fils;
 	
 	   
 	
-	public PatriciaTries(){
-		/* faire une initialisation pour les prefixes et mettre a null quand on a pas initialisé */
+	public PatriciaTries(){		
 		this.prefixes = new String[128];
-		this.fils = new PatriciaTries[128];
-		/* il va falloir faire une initialisation a null de tous les fils avec boucle for il me semble */
+		this.fils = new PatriciaTries[128];	
 	}
-	
-	/*
-	public void putElemPrefixe(int index, String element){
-		this.prefixes[index] = element;
-	}
-	public void putTrieFils(int index,PatriciaTries son){
-		this.fils[index] = son;
-	}
-	*/
-	
+		
 	public String getPrefixe(int i){
 		return prefixes[i];
 	}
@@ -42,7 +30,6 @@ public class PatriciaTries implements ITries{
 		this.fils[i] = son;
 	}
 
-	@Override
 	public void insertion(String element){
 		/* cas de base au cas ou l'élément est vide */
 		if(element.equals(null)){
@@ -60,9 +47,7 @@ public class PatriciaTries implements ITries{
 		int index = element.charAt(0);
 		/* on récupère le préfixe de la case ou il faut insérer */
 		String prefixe = prefixes[index];
-		
-		/* c'est le cas ou la case n'a pas été remplie TODO peut etre a changer*/ 
-		/*TODO frapper très fort alezxandr elavigne avec son .equals de merde */
+				
 		if(prefixe == null){
 			prefixes[index] = element;
 			return;
@@ -98,10 +83,8 @@ public class PatriciaTries implements ITries{
 			/* maintenant on les places dans le nouvel arbre */
 			//newSon.putElemPrefixe(indexSuitePrefixe,suitePrefixe);
 			newSon.prefixes[indexSuitePrefixe] = suitePrefixe;
-			
-			//newSon.putElemPrefixe(indexSuiteElement, suiteElement);
-			newSon.prefixes[indexSuiteElement] = suiteElement;
-			//newSon.putTrieFils(indexSuitePrefixe,this.fils[indexSuitePrefixe]);
+					
+			newSon.prefixes[indexSuiteElement] = suiteElement;			
 			newSon.fils[indexSuitePrefixe] = this.fils[prefixeCommun.charAt(0)];
 			/* et maintenant on met le nouveau fils  */
 			this.prefixes[index] = prefixeCommun;
@@ -121,13 +104,11 @@ public class PatriciaTries implements ITries{
 		return prefixe_commun;
 	}
 
-	@Override
+
 	public boolean recherche(String element){
 		/* on rajoute le mot vide a la fin de la chaine de charactère en entrée */
 		element = element + (char)0;
 		
-		//System.out.println("");
-		//System.out.println(element + " ");
 		return this.rechercheRec(element);
 	}
 	public boolean rechercheRec(String element) {
@@ -165,8 +146,7 @@ public class PatriciaTries implements ITries{
 				for(int i = 1; i < prefixes.length; i++) {
 					if(prefixes[i] != null) {
 						//On récupère le dernier caractère du mot pour tester si 'fin de mot'
-						lastChar = prefixes[i].substring(prefixes[i].length()-1);
-						//test
+						lastChar = prefixes[i].substring(prefixes[i].length()-1);		
 						if(lastChar.equals(""+(char)0)) {
 							cpt++;
 						}
@@ -279,14 +259,10 @@ public class PatriciaTries implements ITries{
 		}
 		
 	}
-	
-	/* TODO : fonction a vérifier */
+		
 	public int prefixe(String mot){
 				
 		int index = mot.charAt(0);
-		/* ici l'erreur était que on avait copié collé la recherche et que dans la recherche si le prefixe dans la case était plus grand que le mot on quittait
-		 * or ici il ne faut pas faire ça
-		 */
 		if(this.prefixes[index] == null){
 			return 0;
 		}
@@ -463,9 +439,7 @@ public class PatriciaTries implements ITries{
 		}								
 	}
 	
-	
-	/* a voir */
-	@SuppressWarnings("null")
+
 	public TriesHybrides patriciaToHybride(){
 		System.out.println("entrer");
 								
@@ -501,8 +475,6 @@ public class PatriciaTries implements ITries{
 			int tailleMot = prefixes[indice].length() - 1;
 			
 			String mot = prefixes[indice];
-			//System.out.println(mot);
-			/* si le mot se termine à l'aide du fils */
 			if(tailleMot > 1 && mot.charAt(tailleMot - 1) != 0){				
 				if(fils[indice] != null){
 					if(fils[indice].prefixes[0] != null){
@@ -516,15 +488,7 @@ public class PatriciaTries implements ITries{
 			temp = null;
 			res = null;					
 			//filsTemp = temp;			
-		}
-		/* a supprimer c'est pour le test */
-		/*if(filsTemp != null){
-			filsTemp.prettyPrint();
-		}
-		else{
-			System.out.println("null");
-		}*/
-				
+		}				
 		/* on stock le fils du milieu */
 		TriesHybrides ret = filsTemp;
 		filsTemp = null;
@@ -538,16 +502,13 @@ public class PatriciaTries implements ITries{
 			indice = noeudsActifs.get(i);
 			if(fils[indice] != null){
 				res = fils[indice].patriciaToHybride();
-				/*System.out.println("on affiche le fils");
-				res.prettyPrint(); */				
 			}
 			
 			/* pour verifier si le mot se termine dans la case */
 			
 			int tailleMot = prefixes[indice].length() - 1;			
 			
-			String mot = prefixes[indice];
-			//System.out.println(mot);
+			String mot = prefixes[indice];			
 			/* si le mot se termine à l'aide du fils si la taille du mot est de 1 alors c'est sur qu'il a des fils (hehe)*/
 			if(tailleMot > 1 && mot.charAt(tailleMot - 1) != 0){
 				if(fils[indice] != null){
@@ -555,12 +516,7 @@ public class PatriciaTries implements ITries{
 						mot = mot + (char)0;
 					}
 				}
-			}
-			
-			//temp = createNode(mot,res);
-			//temp.fils[0] = filsTemp;			
-			//changeRef(filsTemp,temp);
-			//filsTemp = temp;		
+			}		
 			temp = createNode(mot,res);	
 			
 			
@@ -579,11 +535,7 @@ public class PatriciaTries implements ITries{
 			ret.fils[0] = filsTemp;
 			
 			
-		}
-		/*else{
-			ret = filsTemp;
-		} */
-		
+		}		
 		return ret;					
 	}
 	
@@ -602,16 +554,4 @@ public class PatriciaTries implements ITries{
 		}
 		
 	}
-
-		
-	
-	
-	
-	
-
-		
-	
-	
-	
-	
 }

@@ -2,10 +2,9 @@ package triesHybrides;
 
 import java.util.ArrayList;
 
-import interfaces.ITries;
 import patriciaTries.PatriciaTries;
 
-public class TriesHybrides implements ITries{
+public class TriesHybrides{
 	
 	public char caractere;
 	public int valeur;
@@ -23,8 +22,7 @@ public class TriesHybrides implements ITries{
 	
 	public TriesHybrides(){
 		this.caractere = (char)0;
-		this.valeur = -1;
-		/* au cas ou */
+		this.valeur = -1;	
 		this.fils = new TriesHybrides[3];
 	}
 
@@ -32,7 +30,7 @@ public class TriesHybrides implements ITries{
 		return compteur++;
 	}
 
-	@Override
+	
 	public void insertion(String element) {
 		
 		if(element == null || element == ""){
@@ -89,8 +87,7 @@ public class TriesHybrides implements ITries{
 
 
 
-
-	@Override
+	
 	public boolean recherche(String element) {
 		if(element == null){
 			return false;
@@ -176,7 +173,7 @@ public class TriesHybrides implements ITries{
 		ArrayList<String> liste = new ArrayList<String>();
 		String mot = new String();
 		
-		//s'il n'y a pas de caractère, return la liste
+		//s'il n'y a pas de caractère, retourne la liste
 		if(caractere == 0) {
 			return liste;
 		}		
@@ -486,8 +483,7 @@ public class TriesHybrides implements ITries{
 	
 	
 	public PatriciaTries hybrideToPatricia(){
-		
-		/* TODO : faire le premier cas de base ou il n'y a que le fils du milieu dans le fils passer en argument Pour l'arbre a un element */
+			
 		
 		if(fils[GAUCHE] == null && fils[DROIT] == null){
 			PatriciaTries newArbre = new PatriciaTries();
@@ -506,17 +502,14 @@ public class TriesHybrides implements ITries{
 		if(fils[GAUCHE] != null || fils[DROIT] != null){						
 			newTries = new PatriciaTries();
 			PatriciaTries resGauche;
-			PatriciaTries resDroit;
-			/* TODO: a changer ces if moches */
+			PatriciaTries resDroit;		
 			if(this.fils[GAUCHE] != null){
 				
-				resGauche = this.fils[GAUCHE].hybrideToPatriciaRec(newTries,-1);
-				resGauche.prettyPrint();
+				resGauche = this.fils[GAUCHE].hybrideToPatriciaRec(newTries,-1);				
 				
 				if(this.fils[DROIT] != null){
 					
-					resDroit = this.fils[DROIT].hybrideToPatriciaRec(resGauche, -1);
-					resDroit.prettyPrint();
+					resDroit = this.fils[DROIT].hybrideToPatriciaRec(resGauche, -1);					
 					
 				}	
 				else{
@@ -534,8 +527,7 @@ public class TriesHybrides implements ITries{
 			/* on rappel la fonction avec les fils droits et gauches a null  pour ne pas avoir besoin de réecrire du code*/			
 			if(indice == -1){
 				fils[GAUCHE] = null;
-				fils[DROIT] = null;
-				//courrant.setFils(indice,resDroit);
+				fils[DROIT] = null;				
 				return this.hybrideToPatriciaRec(resDroit,-1);
 			}
 			else{
@@ -567,8 +559,7 @@ public class TriesHybrides implements ITries{
 				}
 				return this.fils[MILIEU].hybrideToPatriciaRec(courrant, indice);
 			}			
-			else{
-				/* test normallement inutile mais bon */
+			else{				
 				if(this.valeur != -1){
 					newPrefixe = courrant.getPrefixe(indice) + (char)0;			
 					courrant.setPrefixe(indice,newPrefixe);
@@ -621,8 +612,7 @@ public class TriesHybrides implements ITries{
 	}
 		
 	public TriesHybrides equilibreArbre(){
-		
-		TriesHybrides res;
+			
 		TriesHybrides temp;
 		int hauteurGauche = 0;
 		int hauteurDroite = 0;
@@ -635,8 +625,7 @@ public class TriesHybrides implements ITries{
 		if(this.fils[DROIT] != null){
 			hauteurDroite = this.fils[DROIT].hauteurEquilibrage();
 		}
-		
-		//System.out.println("droite" + hauteurDroite + "Gauche" + hauteurGauche);
+				
 		
 		if((hauteurGauche - hauteurDroite) == 2){
 			int hauteurGaucheFils = 0;

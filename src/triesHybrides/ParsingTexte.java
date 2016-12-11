@@ -24,9 +24,7 @@ public class ParsingTexte {
 		//nécéssaires pour les tests
 		boolean resTrue;
 		boolean resFalse;
-		
-		//ListeMots
-		ArrayList<String> liste = new ArrayList<String>();
+				
 		
 		String line;
 		String []resSplit;
@@ -36,23 +34,20 @@ public class ParsingTexte {
 			for(int i = 0; i < resSplit.length;i++){
 				this.hTries.insertion(resSplit[i]);
 				this.hTries2 = this.hTries2.insertionEquilibrage(resSplit[i]);
-				System.out.println("test en cours");
-				hTries2.prettyPrint();
-				System.out.println("end test en cours");
-				//System.out.println(resSplit[i]);
-				//hTries.prettyPrint();
 				resTrue = this.hTries.recherche(resSplit[i]);				
 				resFalse = false;
-				resFalse = this.hTries.recherche("hahaha");
-				System.out.print(resSplit[i] + " ");
+				resFalse = this.hTries.recherche("hahaha");				
 				if(!(resTrue && !resFalse)){
 					System.out.print("failure");					
 				}
 				else{
-					System.out.println("success");
+					//System.out.println("success");
 				}
 			}
 		}
+		
+		/* exemple de tests */
+		
 	/*	System.out.println("start pretty print");
 		this.hTries.prettyPrint();
 		System.out.println("\nIl y a : " + this.hTries.comptageMots() + " mot(s)");
@@ -73,12 +68,12 @@ public class ParsingTexte {
 		/*System.out.println(hTries.comptageMots());
 		hTries.suppression("bonjour");
 		System.out.println(); 			*/
-		System.out.println("affichage pas equilibre");
+		/* System.out.println("affichage pas equilibre");
 		hTries.prettyPrint();
 		System.out.println("end");
 		System.out.println("affichage equilibre");		
 		hTries2.prettyPrint();
-		System.out.println("end"); 
+		System.out.println("end"); */ 
 		
 		return hTries;
 	}

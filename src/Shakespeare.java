@@ -17,13 +17,11 @@ public class Shakespeare {
 	
 	
 	public static void main(String[] args) throws IOException {
-		TriesHybrides hTries = new TriesHybrides();
-		//TriesHybrides hTrie2 = new TriesHybrides();
+		TriesHybrides hTries = new TriesHybrides();	
 		PatriciaTries pTries = new PatriciaTries();
 	
  		
-		ArrayList<ParsingTexte> listeFichiers = new ArrayList<ParsingTexte>();
-		ParsingTexte t = new ParsingTexte("test/test.txt");
+		ArrayList<ParsingTexte> listeFichiers = new ArrayList<ParsingTexte>();		
 		File f =  new File("Shakespeare/");
 		File [] listeFile = f.listFiles();
 		for(File child : listeFile){
@@ -46,8 +44,7 @@ public class Shakespeare {
 			j++;
 			
 		}
-						
-		//System.out.println("listeMotssize" + listeMots.size());
+								
 		long debut = System.nanoTime();		
 		for(int i = 0; i < listeMots.size();i++){
 			hTries.insertion(listeMots.get(i));
@@ -57,14 +54,12 @@ public class Shakespeare {
 		System.out.println("insertion Hybrides Tries " + debut);
 		
 		TriesHybrides hTriesE = new TriesHybrides();
-		
-		//System.out.println("listeMotssize" + listeMots.size());
+				
 		debut = System.nanoTime();	
 		for(int i = 0; i < listeMots.size();i++){
 			hTriesE.insertionEquilibrage(listeMots.get(i));
 		}	
-		debut = System.nanoTime() - debut;
-		//System.out.println(hTries.comptageMots() + hTries.doublons);
+		debut = System.nanoTime() - debut;		
 		System.out.println("insertion equilibrée Tries Hybrides " + debut);
 				
 		

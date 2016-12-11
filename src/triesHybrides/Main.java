@@ -2,7 +2,6 @@ package triesHybrides;
 
 import java.io.IOException;
 
-import patriciaTries.PatriciaTries;
 
 public class Main {
 
@@ -10,8 +9,12 @@ public class Main {
 		ParsingTexte t = new ParsingTexte("test/test.txt");
 		TriesHybrides tHyb = t.fullfillTries();
 	
-		System.out.println("rotation gauche");
-		(tHyb.rotationGauche()).prettyPrint();
+		tHyb.prettyPrint();
+		
+		/* exemple de tests */
+		
+		/* System.out.println("rotation gauche");
+		(tHyb.rotationGauche()).prettyPrint(); */
 		
 		/*ParsingTexte t2 = new ParsingTexte("test/test2.txt");
 		TriesHybrides tHyb2 = t2.fullfillTries();

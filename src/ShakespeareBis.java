@@ -17,13 +17,11 @@ public class ShakespeareBis {
 	
 	public static void main(String[] args) throws IOException {
 		TriesHybrides hTries = new TriesHybrides();
-		//TriesHybrides hTrie2 = new TriesHybrides();
 		
 		boolean resTrue;
 		boolean resFalse;
  		
-		ArrayList<ParsingTexte> listeFichiers = new ArrayList<ParsingTexte>();
-		ParsingTexte t = new ParsingTexte("test/test.txt");
+		ArrayList<ParsingTexte> listeFichiers = new ArrayList<ParsingTexte>();		
 		File f =  new File("Shakespeare/");
 		File [] listeFile = f.listFiles();
 		for(File child : listeFile){
@@ -52,15 +50,9 @@ public class ShakespeareBis {
 			}
 			System.out.println(listeFile[j].getName());
 			System.out.println(hTries.doublons + hTries.comptageMots());
-			break;
-			//j++;
+			break;			
 		}
 		
-		
-		
-	/*	File.listRoots()
-		ArrayList<ParsingTexte> listeFichiers = new ArrayList<ParsingTexte>;
-		for(int i = 0;) */
 	}
 
 }
