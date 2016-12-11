@@ -60,7 +60,7 @@ public class ParsingTexte {
 		for(int i = 0; i<liste.size(); i++) {
 			System.out.println(liste.get(i));
 		}
-		System.out.println("testHauteur");
+		/*System.out.println("testHauteur");
 		System.out.println(patTries.hauteur());
 		System.out.println("profondeurMoyenne");
 		System.out.println(patTries.profondeurMoyenne());
@@ -68,7 +68,7 @@ public class ParsingTexte {
 		System.out.println(patTries.prefixe("dactylo"));
 		System.out.println("Test suppression");		
 		patTries.suppression("bonjoure");
-		patTries.prettyPrint();
+		patTries.prettyPrint(); */
 		
 		//System.out.println(patTries.comptageMots());
 		

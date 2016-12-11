@@ -16,12 +16,15 @@ public class Main {
 		System.out.println("start 2nd file");
 		ParsingTexte t2 = new ParsingTexte("test/test2.txt");
 		PatriciaTries patTries2 = t2.fullfillTries();
-		
-		/*System.out.println("statfusion");
+		System.out.println("arbre1");
+		patTries1.prettyPrint();
+		System.out.println("arbre2");
+		patTries2.prettyPrint();
+		System.out.println("statfusion");
 		PatriciaTries resultatFusion = patTries1.fusion(patTries2);
 		
 		System.out.println("begining pritint fusion");
-		resultatFusion.prettyPrint(); */
+		resultatFusion.prettyPrint(); 
 		
 		/*System.out.println("start test pat to hyrbride");
 		TriesHybrides res = patTriesTest.patriciaToHybride();

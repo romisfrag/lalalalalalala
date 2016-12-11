@@ -361,7 +361,7 @@ public class PatriciaTries implements ITries{
 		
 	}
 
-	// TODO: a tester 
+
 	public PatriciaTries fusion(PatriciaTries second){
 		
 		PatriciaTries resFusion = new PatriciaTries();
@@ -402,25 +402,33 @@ public class PatriciaTries implements ITries{
 				prefixeCommun = bestPrefixe(this.prefixes[i],second.prefixes[i]);
 				resultat.prefixes[i] = prefixeCommun;
 				newFils = new PatriciaTries();				
+				/* le -1 est peut etre a enlever */
 				suitePrefixeA = this.prefixes[i].substring(prefixeCommun.length());
 				suitePrefixeB = second.prefixes[i].substring(prefixeCommun.length());
+							
 				
-				if(prefixeCommun.length() != this.prefixes[i].length()){
+				if(prefixeCommun.length() != this.prefixes[i].length()){				
 					newFils.prefixes[suitePrefixeA.charAt(0)] = suitePrefixeA;				
-					newFils.fils[suitePrefixeA.charAt(0)] = this.fils[i];
+					newFils.fils[suitePrefixeA.charAt(0)] = this.fils[i];					
+				}
+				else if(this.prefixes[i].charAt(this.prefixes[i].length() - 1) != (char)0){
+					newFils = this.fils[i];
 				}
 				else{
 					newFils.prefixes[0] = "" + (char)0;
 				}
 				
 				
-				if(prefixeCommun.length() != this.prefixes[i].length()){
+				if(prefixeCommun.length() != second.prefixes[i].length()){
 					newFils.prefixes[suitePrefixeB.charAt(0)] = suitePrefixeB;
 					newFils.fils[suitePrefixeB.charAt(0)] = second.fils[i];
 				}
+				else if(second.prefixes[i].charAt(second.prefixes[i].length() - 1) != (char)0){
+					newFils = newFils.fusion(second.fils[i]);					
+				}
 				else{
 					newFils.prefixes[0] = "" + (char)0;
-				}
+				}				
 				
 				resultat.fils[i] = newFils;
 			}
